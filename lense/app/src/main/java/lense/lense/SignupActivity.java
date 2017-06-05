@@ -1,18 +1,12 @@
 package lense.lense;
 
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -25,67 +19,55 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
 
-    EditText password;
-    EditText mail;
-    Animation shake;
-    Button loginButton;
-    String mailText;
-    String passText;
-    ImageButton signUpButton;
+    private EditText mail;
+    private EditText name;
+    private EditText lastName;
+    private EditText password;
+    private EditText password2;
+    private Button signUpButton;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
-        loginButton = (Button) findViewById(R.id.login__button);
-        mail = (EditText) findViewById(R.id.login__mail);
-        password = (EditText) findViewById(R.id.login__password);
-        signUpButton = (ImageButton) findViewById(R.id.login__sign_up);
-        TextView forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
-        Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
+        mail = (EditText) findViewById(R.id.signup__mail);
+        name = (EditText) findViewById(R.id.signup__name);
+        lastName = (EditText) findViewById(R.id.signup_last_name);
+        password = (EditText) findViewById(R.id.signup__password);
+        password2 = (EditText) findViewById(R.id.signup__confirm_password);
+        signUpButton = (Button) findViewById(R.id.signup__submit);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this,SignupActivity.class);
-                startActivity(i);
-            }
-        });
-
-        shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
-
-        mail.setTypeface(walkwayBold);
-        password.setTypeface(walkwayBold);
-        loginButton.setTypeface(walkwayBold);
-        forgotPass.setTypeface(walkwayBold);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mailText = mail.getText().toString();
-                passText = password.getText().toString();
-
-                Intent i = new Intent(LoginActivity.this,DictionaryActivity.class);
-                startActivity(i);
-
-                //new sendLogginInfo().execute();
+                if(EditTextIsEmpty())
+                {
+                    if(password.getText().toString().equals(password2.getText().toString()))
+                    {
+                        userData = new UserData(name.getText().toString(),lastName.getText().toString(),mail.getText().toString(),password.getText().toString());
+                        new sendLogginInfo().execute();
+                    }
+                    else
+                    {
+                        //mensaje "no coinciden las contraseñas"
+                    }
+                }
             }
         });
     }
 
-    private void setLogin()
-    {
-        Intent i = new Intent(LoginActivity.this,TranslateActivity.class);
-        startActivity(i);
-    }
 
-    private void setLoginError()
-    {
 
+    public boolean EditTextIsEmpty()
+    {
+        if(mail.getText().toString().equals("") || password.getText().toString().equals("") || password2.getText().toString().equals("") || name.getText().toString().equals("") || lastName.getText().toString().equals(""))
+            return true;
+        else
+            return false;
     }
 
     private class sendLogginInfo extends AsyncTask<Void,Void,Void>
@@ -95,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "Login";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/Login";
+            final String METHOD_NAME = "AddUsuario";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/AddUsuario";
             String Error;
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("mail", mailText); // Paso parametros al WS
-                request.addProperty("password", passText); // Paso parametros al WS
+                request.addProperty("newUsuario", userData); // Paso parametros al WS
+
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -142,18 +124,13 @@ public class LoginActivity extends AppCompatActivity {
 
             if(resp)
             {
-                Intent i = new Intent(LoginActivity.this,TranslateActivity.class);
-                startActivity(i);
+                finish();
             }
             else
             {
-                mail.startAnimation(shake);
-                password.startAnimation(shake);
-                loginButton.startAnimation(shake);
+
             }
             super.onPostExecute(result);
         }
     }
-
-
 }

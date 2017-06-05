@@ -18,7 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".TranslateActivity"></activity>
+        <activity android:name=".TranslateActivity" />
+        <activity android:name=".DictionaryActivity" />
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>
