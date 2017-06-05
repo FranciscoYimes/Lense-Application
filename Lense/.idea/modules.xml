@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Lense.iml" filepath="$PROJECT_DIR$/Lense.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ion-master/ion-master.iml" filepath="$PROJECT_DIR$/ion-master/ion-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lense.iml" filepath="$PROJECT_DIR$/lense.iml" />
     </modules>
   </component>
 </project>

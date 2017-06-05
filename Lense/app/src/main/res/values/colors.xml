@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="new_color_back">#0065B3 </color>
+    <color name="login__text_color">#FFFFFF</color>
+
+    <color name="color_accent">#17458A</color>
+    <color name="new_color_buttom">#6699FF </color>
+    <color name="special_edit_text__text_color">#333333</color>
+    <color name="special_edit_text__hint_color">#ff626262</color>
+
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/list_icon"
+            android:title="Lista Completa" />
+
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/category_icon"
+            android:title="Categorías" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/map_icon"
+            android:title="Cambiar Región" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/account_icon"
+            android:title="Configurar Cuenta" />
+
+    </group>
+
+
+
+</menu>

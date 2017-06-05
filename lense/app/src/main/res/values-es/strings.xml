@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Lense</string>
+
+    <!-- Login Activity -->
+
+    <string name="lense_banner_image">Lense Banner</string>
+    <string name="credentials_email">Correo</string>
+    <string name="credentials_password">Contraseña</string>
+    <string name="login__submit">Iniciar Sesión</string>
+    <string name="login_forgot_password">¿Olvidaste la Contraseña?</string>
+    <string name="login_facebook_image">Facebook Login</string>
+    <string name="login_google_plus_image">Google+ Login</string>
+
+    <string name="RecoveryMessage">Ingresa tu mail de usuario y te enviaremos un correo con un link donde podrás cambiar tu contraseña.</string>
+
+    <string name="url_wcf">http://52.88.103.111/TABD/Servicio/ServicioCapacitaciones.svc/</string>
+
+</resources>

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Lense</string>
+    <string name="wcf">http://www.lensechile.cl/lenseservice/Service1.svc?singleWsdl</string>
+    <string name="method_prueba_pancho">pruebapancho</string>
+    <!-- Login Activity -->
+
+    <string name="lense_banner_image">Lense Banner</string>
+    <string name="credentials_email">Mail</string>
+    <string name="credentials_password">Password</string>
+    <string name="login__submit">log In</string>
+    <string name="login_forgot_password">Forgot Password</string>
+    <string name="login_facebook_image">Facebook Login</string>
+    <string name="login_google_plus_image">Google+ Login</string>
+
+    <string name="RecoveryMessage">Ingresa tu mail de usuario y te enviaremos un correo con un link donde podrás cambiar tu contraseña.</string>
+
+
+    <string name="url_wcf">http://52.88.103.111/TABD/Servicio/ServicioCapacitaciones.svc/</string>
+    <string name="title_activity_dictionary">Lense</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
 </resources>
