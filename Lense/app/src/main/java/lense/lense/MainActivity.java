@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
@@ -21,6 +20,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import lense.lense.server_conection.Utils;
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean active = true;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView splashImage;
     private AlphaAnimation appearAnimation;
     private int status = 0;
+    private Utils utils;
+    private int id;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         appearAnimation.setDuration(2000);
         appearAnimation.setFillAfter(true);
 
+        utils = new Utils();
+
+        new GetSessionStatus().execute();
 
         Thread splashThread = new Thread()
         {
@@ -67,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 finally
                 {
-
                     do
                     {
                         if(status==2)
                         {
-                            Intent intent = new Intent(MainActivity.this, TranslateActivity.class);
+                            Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
+                            intent.putExtra("sessionId",id);
                             startActivity(intent);
                         }
                         if(status==1)
@@ -88,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         splashThread.start();
-        new GetSessionStatus().execute();
-
     }
 
     private class GetSessionStatus extends AsyncTask<Void,Void,Void>
@@ -99,64 +103,59 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "getStatusSession";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/getStatusSession";
+            final String METHOD_NAME = "getSessionSatus";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/getSessionSatus";
             String Error;
             try {
-
-                // Modelo el request
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("macAddress", utils.getMACAddress("wlan0")); // Paso parametros al WS
 
-
-                // Modelo el Sobre
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
                 sobre.setOutputSoapObject(request);
 
-                // Modelo el transporte
                 HttpTransportSE transporte = new HttpTransportSE(URL);
-                // Llamada
+
                 transporte.call(SOAP_ACTION, sobre);
 
-                // Resultado
-
                 resultado = (SoapPrimitive) sobre.getResponse();
-
-                Log.i("Resultado", resultado.toString());
 
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                status = 1;
                 Error = e.toString();
             } catch (SoapFault soapFault) {
                 soapFault.printStackTrace();
+                status = 1;
                 Error = soapFault.toString();
 
             } catch (XmlPullParserException e) {
                 e.printStackTrace();
+                status = 1;
                 Error = e.toString();
 
             } catch (IOException e) {
                 e.printStackTrace();
+                status = 1;
                 Error = e.toString();
-
             }
 
             return null;
         }
         protected void onPostExecute(Void result)
         {
-           // String response = resultado.toString();
-            //boolean sessionStatus = Boolean.getBoolean(response);
-            boolean sessionStatus = false;
+            String response = resultado.toString();
+            id = Integer.parseInt(response);
 
-            if(sessionStatus)
+
+            if(id==0)
             {
-                status = 2;
+                status = 1;
             }
             else
             {
-                status = 1;
+                status = 2;
             }
 
             super.onPostExecute(result);

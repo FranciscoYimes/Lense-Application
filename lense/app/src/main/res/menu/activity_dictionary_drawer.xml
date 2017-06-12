@@ -20,6 +20,11 @@
             android:icon="@drawable/account_icon"
             android:title="Configurar Cuenta" />
 
+        <item
+            android:id="@+id/logout_option"
+            android:icon="@drawable/account_icon"
+            android:title="Cerrar Sesión" />
+
     </group>
 
 

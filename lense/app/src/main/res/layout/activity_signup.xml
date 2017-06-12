@@ -9,7 +9,6 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginTop="5sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fill_the_field"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="22dp"
             android:layout_gravity="center_horizontal"/>
 
         <EditText
@@ -91,17 +90,28 @@
             android:layout_marginBottom="8dp"
             android:layout_gravity="center_horizontal"/>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/errorDetail"
+            android:textSize="16sp"
+            android:textColor="#FF0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:text="Contraseñas no coinciden"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"/>
+
         <Button
             android:textSize="20sp"
             style="@style/AccentButton"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/signup__submit"
             android:id="@+id/signup__submit" />
-
 
     </LinearLayout>
 

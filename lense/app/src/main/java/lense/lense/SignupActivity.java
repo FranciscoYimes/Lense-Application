@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -28,6 +29,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText password2;
     private Button signUpButton;
     private UserData userData;
+    private TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +42,46 @@ public class SignupActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.signup__password);
         password2 = (EditText) findViewById(R.id.signup__confirm_password);
         signUpButton = (Button) findViewById(R.id.signup__submit);
+        errorMessage = (TextView) findViewById(R.id.errorDetail);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(EditTextIsEmpty())
+                if(!EditTextIsEmpty())
                 {
                     if(password.getText().toString().equals(password2.getText().toString()))
                     {
-                        userData = new UserData(name.getText().toString(),lastName.getText().toString(),mail.getText().toString(),password.getText().toString());
-                        new sendLogginInfo().execute();
+                        if(isValidEmailAddress(mail.getText().toString()))
+                        {
+                            if(password.getText().toString().length()>7)
+                            {
+                                userData = new UserData(name.getText().toString(),lastName.getText().toString(),mail.getText().toString(),password.getText().toString());
+                                new sendLogginInfo().execute();
+                            }
+                            else
+                            {
+                                errorMessage.setVisibility(View.VISIBLE);
+                                errorMessage.setText("Contraseña demasiado corta");
+                            }
+                        }
+                        else
+                        {
+                            //mail no existe
+                            errorMessage.setVisibility(View.VISIBLE);
+                            errorMessage.setText("Debe ingresar un correo válido");
+                        }
                     }
                     else
                     {
                         //mensaje "no coinciden las contraseñas"
+                        errorMessage.setVisibility(View.VISIBLE);
+                        errorMessage.setText("Las contraseñas no coinciden");
                     }
+                }
+                else
+                {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    errorMessage.setText("Debe completar todos los campos");
                 }
             }
         });
@@ -82,8 +109,10 @@ public class SignupActivity extends AppCompatActivity {
             String Error;
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("newUsuario", userData); // Paso parametros al WS
-
+                request.addProperty("name", userData.getName()); // Paso parametros al WS
+                request.addProperty("lastName", userData.getLastName()); // Paso parametros al WS
+                request.addProperty("mail", userData.getMail()); // Paso parametros al WS
+                request.addProperty("password", userData.getPassword()); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -132,5 +161,12 @@ public class SignupActivity extends AppCompatActivity {
             }
             super.onPostExecute(result);
         }
+    }
+
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
 }

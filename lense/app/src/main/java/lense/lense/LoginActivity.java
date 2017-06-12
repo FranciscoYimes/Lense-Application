@@ -25,6 +25,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import lense.lense.server_conection.Utils;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText password;
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     String mailText;
     String passText;
     ImageButton signUpButton;
+    String macAdress;
+    Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
         signUpButton = (ImageButton) findViewById(R.id.login__sign_up);
         TextView forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
+
+        utils = new Utils();
+
+        macAdress = utils.getMACAddress("wlan0");
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,10 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 mailText = mail.getText().toString();
                 passText = password.getText().toString();
 
-                Intent i = new Intent(LoginActivity.this,DictionaryActivity.class);
-                startActivity(i);
-
-                //new sendLogginInfo().execute();
+                new sendLogginInfo().execute();
             }
         });
     }
@@ -102,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("mail", mailText); // Paso parametros al WS
                 request.addProperty("password", passText); // Paso parametros al WS
+                request.addProperty("macAddress", macAdress); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -137,23 +143,26 @@ public class LoginActivity extends AppCompatActivity {
         }
         protected void onPostExecute(Void result)
         {
-            String response = resultado.toString();
-            Boolean resp = Boolean.parseBoolean(response);
 
-            if(resp)
+                    if(resultado != null)
             {
-                Intent i = new Intent(LoginActivity.this,TranslateActivity.class);
-                startActivity(i);
+                String response = resultado.toString();
+                int resp = Integer.parseInt(response);
+
+                if(resp!=0)
+                {
+                    Intent i = new Intent(LoginActivity.this,DictionaryActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else
+                {
+                    mail.startAnimation(shake);
+                    password.startAnimation(shake);
+                    loginButton.startAnimation(shake);
+                }
+                super.onPostExecute(result);
             }
-            else
-            {
-                mail.startAnimation(shake);
-                password.startAnimation(shake);
-                loginButton.startAnimation(shake);
-            }
-            super.onPostExecute(result);
         }
     }
-
-
 }

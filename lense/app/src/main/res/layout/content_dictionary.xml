@@ -25,17 +25,6 @@
 
             <LinearLayout
                 android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -63,26 +52,32 @@
 
             </LinearLayout>
 
-
-            <EditText
-                android:layout_marginTop="5dp"
-                style="@style/SpecialEditText"
-                android:id="@+id/translate_text"
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:hint="Palabra a traducir"
-                android:inputType="textEmailAddress" />
+                android:layout_height="wrap_content">
 
-            <Button
-                style="@style/AccentButton"
-                android:layout_marginTop="-10dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Traducir"
-                android:textSize="20sp"
-                android:id="@+id/translateButton" />
+                <EditText
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    style="@style/SpecialEditText"
+                    android:id="@+id/translate_text"
+                    android:layout_width="270dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:hint="Palabra a traducir"
+                    android:inputType="textEmailAddress" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/search_icon"
+                    android:textSize="20sp"
+                    android:id="@+id/translateButton" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
