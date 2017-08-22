@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -20,6 +21,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import lense.lense.Adapters.SimpleProgressDialog;
+
 public class SignupActivity extends AppCompatActivity {
 
     private EditText mail;
@@ -30,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button signUpButton;
     private UserData userData;
     private TextView errorMessage;
+    private SimpleProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class SignupActivity extends AppCompatActivity {
         password2 = (EditText) findViewById(R.id.signup__confirm_password);
         signUpButton = (Button) findViewById(R.id.signup__submit);
         errorMessage = (TextView) findViewById(R.id.errorDetail);
+
+        dialog = SimpleProgressDialog.build(this, "Cargando...");
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +113,7 @@ public class SignupActivity extends AppCompatActivity {
             final String METHOD_NAME = "AddUsuario";
             final String SOAP_ACTION = "http://tempuri.org/IService1/AddUsuario";
             String Error;
+            dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("name", userData.getName()); // Paso parametros al WS
@@ -148,17 +155,30 @@ public class SignupActivity extends AppCompatActivity {
         }
         protected void onPostExecute(Void result)
         {
-            String response = resultado.toString();
-            Boolean resp = Boolean.parseBoolean(response);
-
-            if(resp)
+            dialog.dismiss();
+            if(resultado!=null)
             {
-                finish();
+                String response = resultado.toString();
+                Boolean resp = Boolean.parseBoolean(response);
+
+                if(resp)
+                {
+                    Toast toast = Toast.makeText(SignupActivity.this, "Registrado! Ya puedes iniciar sesión.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    finish();
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(SignupActivity.this, "No se ha podido registrar, vuelve a intentarlo más tarde.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
             else
             {
-
+                Toast toast = Toast.makeText(SignupActivity.this, "No se ha podido registrar, vuelve a intentarlo más tarde.", Toast.LENGTH_SHORT);
+                toast.show();
             }
+
             super.onPostExecute(result);
         }
     }

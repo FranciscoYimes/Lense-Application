@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -25,19 +26,22 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import lense.lense.Adapters.SimpleProgressDialog;
 import lense.lense.server_conection.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText password;
-    EditText mail;
-    Animation shake;
-    Button loginButton;
-    String mailText;
-    String passText;
-    ImageButton signUpButton;
-    String macAdress;
-    Utils utils;
+    private EditText password;
+    private EditText mail;
+    private TextView forgotPass;
+    private Animation shake;
+    private Button loginButton;
+    private String mailText;
+    private String passText;
+    private ImageButton signUpButton;
+    private String macAdress;
+    private Utils utils;
+    private SimpleProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +52,12 @@ public class LoginActivity extends AppCompatActivity {
         mail = (EditText) findViewById(R.id.login__mail);
         password = (EditText) findViewById(R.id.login__password);
         signUpButton = (ImageButton) findViewById(R.id.login__sign_up);
-        TextView forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
+        forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
 
         utils = new Utils();
+
+        dialog = SimpleProgressDialog.build(this, "Cargando...");
 
         macAdress = utils.getMACAddress("wlan0");
 
@@ -70,6 +76,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setTypeface(walkwayBold);
         forgotPass.setTypeface(walkwayBold);
 
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this,PassRecoveryActivity.class);
+                startActivity(i);
+            }
+        });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,17 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setLogin()
-    {
-        Intent i = new Intent(LoginActivity.this,TranslateActivity.class);
-        startActivity(i);
-    }
-
-    private void setLoginError()
-    {
-
-    }
-
     private class sendLogginInfo extends AsyncTask<Void,Void,Void>
     {
         SoapPrimitive resultado;
@@ -103,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             final String METHOD_NAME = "Login";
             final String SOAP_ACTION = "http://tempuri.org/IService1/Login";
             String Error;
+            dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("mail", mailText); // Paso parametros al WS
@@ -143,8 +147,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         protected void onPostExecute(Void result)
         {
-
-                    if(resultado != null)
+            dialog.dismiss();
+            if(resultado != null)
             {
                 String response = resultado.toString();
                 int resp = Integer.parseInt(response);
@@ -162,6 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                     loginButton.startAnimation(shake);
                 }
                 super.onPostExecute(result);
+            }
+            else
+            {
+                Toast toast = Toast.makeText(LoginActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     }

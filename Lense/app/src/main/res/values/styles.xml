@@ -16,6 +16,15 @@
 
     </style>
 
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/new_color_back</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/new_color_back</item>
+        <item name="colorPrimaryDark">@color/color_accent</item>
+
+    </style>
+
     <style name="SpecialEditText" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/special_edit_text</item>
         <item name="android:layout_marginBottom">16dp</item>

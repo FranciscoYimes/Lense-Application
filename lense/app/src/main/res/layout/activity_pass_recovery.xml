@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_pass_recovery"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/new_color_back"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="12dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="12dp"
     tools:context="lense.lense.PassRecoveryActivity">
 
     <LinearLayout
@@ -40,6 +40,7 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:id="@+id/mail_recovery"
                 style="@style/SpecialEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,6 +50,7 @@
                 android:inputType="textEmailAddress" />
 
             <Button
+                android:id="@+id/send_button_recovery"
                 style="@style/AccentButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

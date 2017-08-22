@@ -21,7 +21,12 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".TranslateActivity" />
         <activity android:name=".DictionaryActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".PassRecoveryActivity" />
+        <activity
+            android:name=".ListActivity"
+            android:label="@string/title_activity_list"
+            android:theme="@style/AppTheme2"></activity>
     </application>
 
 </manifest>

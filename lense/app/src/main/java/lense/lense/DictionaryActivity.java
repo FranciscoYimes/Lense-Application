@@ -118,8 +118,9 @@ public class DictionaryActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            setImageGif("b");
+        if (id == R.id.list) {
+            Intent i = new Intent(DictionaryActivity.this,ListActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.logout_option) {

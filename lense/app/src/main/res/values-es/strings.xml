@@ -11,7 +11,7 @@
     <string name="login_facebook_image">Facebook Login</string>
     <string name="login_google_plus_image">Google+ Login</string>
 
-    <string name="RecoveryMessage">Ingresa tu mail de usuario y te enviaremos un correo con un link donde podrás cambiar tu contraseña.</string>
+    <string name="RecoveryMessage">Ingresa tu correo y te enviaremos tu contraseña.</string>
 
     <string name="url_wcf">http://52.88.103.111/TABD/Servicio/ServicioCapacitaciones.svc/</string>
 
@@ -20,5 +20,6 @@
     <string name="create_an_account">Crear una Cuenta</string>
     <string name="fill_the_field">Por Favor, Completa los Campos</string>
     <string name="show_password">Mostrar Contraseña</string>
+    <string name="title_activity_list">Lista Completa</string>
 
 </resources>

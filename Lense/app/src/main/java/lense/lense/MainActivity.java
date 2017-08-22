@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         utils = new Utils();
 
-        new GetSessionStatus().execute();
+
 
         Thread splashThread = new Thread()
         {
@@ -73,22 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 finally
                 {
-                    do
-                    {
-                        if(status==2)
-                        {
-                            Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
-                            intent.putExtra("sessionId",id);
-                            startActivity(intent);
-                        }
-                        if(status==1)
-                        {
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }while (status==0);
-
-                    finish();
+                    new GetSessionStatus().execute();
                 }
 
             }
@@ -145,17 +130,32 @@ public class MainActivity extends AppCompatActivity {
         }
         protected void onPostExecute(Void result)
         {
-            String response = resultado.toString();
-            id = Integer.parseInt(response);
 
-
-            if(id==0)
+            if(resultado != null)
             {
-                status = 1;
+                String response = resultado.toString();
+                id = Integer.parseInt(response);
+
+
+                if(id==0)
+                {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(MainActivity.this, DictionaryActivity.class);
+                    intent.putExtra("sessionId",id);
+                    startActivity(intent);
+                    finish();
+                }
             }
             else
             {
-                status = 2;
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             super.onPostExecute(result);
