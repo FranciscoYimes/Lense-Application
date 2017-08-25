@@ -28,6 +28,12 @@
     <string name="create_an_account">Crear una Cuenta</string>
     <string name="fill_the_field">Por Favor, Completa los Campos</string>
     <string name="show_password">Mostrar Contraseña</string>
-    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_list">Lista Completa</string>
+
+    <string name="facebook_app_id">116675005662896</string>
+    <string name="fb_login_protocol_scheme">fb116675005662896</string>
+    <string name="title_activity_category">Categorías</string>
+    <string name="title_activity_sub_category">Sub Categorías</string>
+    <string name="title_activity_words">Lista de Palabras</string>
 
 </resources>

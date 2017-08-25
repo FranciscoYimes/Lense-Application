@@ -21,5 +21,8 @@
     <string name="fill_the_field">Por Favor, Completa los Campos</string>
     <string name="show_password">Mostrar Contraseña</string>
     <string name="title_activity_list">Lista Completa</string>
+    <string name="title_activity_category">Categorías</string>
+    <string name="title_activity_sub_category">Sub Categorías</string>
+    <string name="title_activity_words">Lista de Palabras</string>
 
 </resources>

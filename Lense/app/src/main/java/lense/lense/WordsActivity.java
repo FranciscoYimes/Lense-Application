@@ -1,6 +1,5 @@
 package lense.lense;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,22 +24,20 @@ import java.net.MalformedURLException;
 
 import lense.lense.Adapters.SimpleProgressDialog;
 
-public class ListActivity extends AppCompatActivity
-{
+public class WordsActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-    private LinearLayout abcContent;
-    private LinearLayout listContent;
-    private TextView abcTextViewExample;
-    private TextView abcTextChar;
     private TextView wordExample;
-    private String abc;
+    private LinearLayout listContent;
     private SimpleProgressDialog dialog;
+    private String subCategoryName;
+    private String categoryName;
+    private int idPalabra;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_words);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,18 +45,11 @@ public class ListActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        abc = "A";
-
-        dialog = SimpleProgressDialog.build(this, "Cargando...");
-
-        abcContent = (LinearLayout) findViewById(R.id.ABC_content);
-        abcTextViewExample = (TextView) findViewById(R.id.abc_text_example);
-        abcTextChar = (TextView) findViewById(R.id.ABC_Char);
-        wordExample = (TextView) findViewById(R.id.word_example);
         listContent = (LinearLayout) findViewById(R.id.list_content);
-
-        SetListABC();
-
+        wordExample = (TextView) findViewById(R.id.word_example);
+        subCategoryName = getIntent().getStringExtra("subCategoryName");
+        categoryName = getIntent().getStringExtra("categoryName");
+        dialog = SimpleProgressDialog.build(this, "Cargando...");
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,34 +57,7 @@ public class ListActivity extends AppCompatActivity
             }
         });
 
-        new AddListWords().execute();
-    }
-
-    public void SetListABC()
-    {
-        final String ABC[] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-        int i;
-
-        for (i = 0; i<ABC.length;i++)
-        {
-            final TextView textView = new TextView(getApplicationContext());
-            textView.setText(ABC[i]);
-            textView.setTextSize(30);
-            textView.setTextColor(abcTextViewExample.getTextColors());
-            textView.setLayoutParams(abcTextViewExample.getLayoutParams());
-            textView.setId(i);
-
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int id = textView.getId();
-                    abcTextChar.setText(ABC[id]);
-                    abc = ABC[id];
-                    new AddListWords().execute();
-                }
-            });
-            abcContent.addView(textView);
-        }
+        new AddWordsList().execute();
     }
 
     public void AddWord(String word, int id)
@@ -117,20 +80,21 @@ public class ListActivity extends AppCompatActivity
         listContent.addView(textView);
     }
 
-    private class AddListWords extends AsyncTask<Void,Void,Void>
+    private class AddWordsList extends AsyncTask<Void,Void,Void>
     {
         SoapObject resultado;
         @Override
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "Palabras";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/Palabras";
+            final String METHOD_NAME = "listaPalabrasCategoriaSubCategoria";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/listaPalabrasCategoriaSubCategoria";
             String Error;
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("letraPalabra", abc); // Paso parametros al WS
+                request.addProperty("categoria", categoryName); // Paso parametros al WS
+                request.addProperty("subCategoria", subCategoryName); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -167,14 +131,13 @@ public class ListActivity extends AppCompatActivity
         }
         protected void onPostExecute(Void result)
         {
-            listContent.removeAllViews();
             if(resultado!=null)
             {
-                SoapObject infoPalabra;
+                SoapObject wordObject;
                 for(int i = 0; i< resultado.getPropertyCount();i++)
                 {
-                    infoPalabra = (SoapObject) resultado.getProperty(i);
-                    AddWord(infoPalabra.getProperty(1).toString(),Integer.parseInt(infoPalabra.getProperty(0).toString()));
+                    wordObject = (SoapObject) resultado.getProperty(i);
+                    AddWord(wordObject.getProperty(1).toString(),Integer.parseInt(wordObject.getProperty(0).toString()));
                 }
             }
             else

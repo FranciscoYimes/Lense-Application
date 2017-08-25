@@ -15,6 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -42,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     private String macAdress;
     private Utils utils;
     private SimpleProgressDialog dialog;
+    private LoginButton facebookButton;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +57,35 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         loginButton = (Button) findViewById(R.id.login__button);
+        facebookButton = (LoginButton) findViewById(R.id.facebook_button);
         mail = (EditText) findViewById(R.id.login__mail);
         password = (EditText) findViewById(R.id.login__password);
         signUpButton = (ImageButton) findViewById(R.id.login__sign_up);
         forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
+        callbackManager = CallbackManager.Factory.create();
+
+        //facebookButton.setReadPermissions("email");
+        //facebookButton.setReadPermissions("user_friends");
+        facebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Toast toast = Toast.makeText(LoginActivity.this, "Funciona.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast toast = Toast.makeText(LoginActivity.this, "Cancelado.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toast toast = Toast.makeText(LoginActivity.this, "Error.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         utils = new Utils();
 
@@ -156,6 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(resp!=0)
                 {
                     Intent i = new Intent(LoginActivity.this,DictionaryActivity.class);
+                    i.putExtra("sessionId",resp);
                     startActivity(i);
                     finish();
                 }

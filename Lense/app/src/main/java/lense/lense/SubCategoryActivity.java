@@ -1,6 +1,5 @@
 package lense.lense;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,22 +24,21 @@ import java.net.MalformedURLException;
 
 import lense.lense.Adapters.SimpleProgressDialog;
 
-public class ListActivity extends AppCompatActivity
-{
+public class SubCategoryActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-    private LinearLayout abcContent;
-    private LinearLayout listContent;
-    private TextView abcTextViewExample;
-    private TextView abcTextChar;
-    private TextView wordExample;
-    private String abc;
+    private LinearLayout subCategoryLayoutExample;
+    private LinearLayout contentSubCategory;
+    private LinearLayout lineLayoutExample;
+    private TextView subCategoryTextExample;
+    private String categoryName;
+    private int idPalabra;
     private SimpleProgressDialog dialog;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_sub_category);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,18 +46,13 @@ public class ListActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        abc = "A";
+        contentSubCategory = (LinearLayout) findViewById(R.id.content_sub_category);
+        subCategoryLayoutExample = (LinearLayout) findViewById(R.id.sub_category_layout_example);
+        subCategoryTextExample = (TextView) findViewById(R.id.sub_category_text_example);
+        lineLayoutExample = (LinearLayout) findViewById(R.id.line_layout_example);
 
+        categoryName = getIntent().getStringExtra("categoryName");
         dialog = SimpleProgressDialog.build(this, "Cargando...");
-
-        abcContent = (LinearLayout) findViewById(R.id.ABC_content);
-        abcTextViewExample = (TextView) findViewById(R.id.abc_text_example);
-        abcTextChar = (TextView) findViewById(R.id.ABC_Char);
-        wordExample = (TextView) findViewById(R.id.word_example);
-        listContent = (LinearLayout) findViewById(R.id.list_content);
-
-        SetListABC();
-
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,70 +60,72 @@ public class ListActivity extends AppCompatActivity
             }
         });
 
-        new AddListWords().execute();
+        new AddListSubCategory().execute();
+
     }
 
-    public void SetListABC()
-    {
-        final String ABC[] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-        int i;
-
-        for (i = 0; i<ABC.length;i++)
-        {
-            final TextView textView = new TextView(getApplicationContext());
-            textView.setText(ABC[i]);
-            textView.setTextSize(30);
-            textView.setTextColor(abcTextViewExample.getTextColors());
-            textView.setLayoutParams(abcTextViewExample.getLayoutParams());
-            textView.setId(i);
-
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int id = textView.getId();
-                    abcTextChar.setText(ABC[id]);
-                    abc = ABC[id];
-                    new AddListWords().execute();
-                }
-            });
-            abcContent.addView(textView);
-        }
-    }
-
-    public void AddWord(String word, int id)
+    public void AddSubCategory(String name)
     {
         final TextView textView = new TextView(getApplicationContext());
-        textView.setLayoutParams(wordExample.getLayoutParams());
-        textView.setText("- "+word);
-        textView.setTextColor(wordExample.getTextColors());
+        final LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+        LinearLayout lineLayout = new LinearLayout(getApplicationContext());
+        textView.setLayoutParams(subCategoryTextExample.getLayoutParams());
+        linearLayout.setLayoutParams(subCategoryLayoutExample.getLayoutParams());
+        lineLayout.setLayoutParams(lineLayoutExample.getLayoutParams());
+        lineLayout.setBackgroundColor(getResources().getColor(R.color.special_edit_text__text_color));
         textView.setTextSize(20);
-        textView.setId(id);
+        textView.setText(name);
+        textView.setTextColor(subCategoryTextExample.getTextColors());
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SubCategoryActivity.this,WordsActivity.class);
+                i.putExtra("subCategoryName",textView.getText().toString());
+                i.putExtra("categoryName",categoryName);
+                startActivityForResult(i,0);
+            }
+        });
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent data = new Intent();
-                data.setData(Uri.parse(String.valueOf(textView.getId())));
-                setResult(RESULT_OK, data);
-                finish();
+                Intent i = new Intent(SubCategoryActivity.this,WordsActivity.class);
+                i.putExtra("subCategoryName",textView.getText().toString());
+                i.putExtra("categoryName",categoryName);
+                startActivityForResult(i,0);
             }
         });
-        listContent.addView(textView);
+
+        linearLayout.addView(textView);
+        contentSubCategory.addView(linearLayout);
+        contentSubCategory.addView(lineLayout);
     }
 
-    private class AddListWords extends AsyncTask<Void,Void,Void>
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (data != null) {
+            idPalabra = Integer.parseInt(data.getData().toString());
+            Intent data1 = new Intent();
+            data1.setData(Uri.parse(String.valueOf(idPalabra)));
+            setResult(RESULT_OK, data1);
+            finish();
+        }
+    }
+
+    private class AddListSubCategory extends AsyncTask<Void,Void,Void>
     {
         SoapObject resultado;
         @Override
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "Palabras";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/Palabras";
+            final String METHOD_NAME = "subCategorias";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/subCategorias";
             String Error;
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("letraPalabra", abc); // Paso parametros al WS
+                request.addProperty("Categoria", categoryName); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -167,14 +162,11 @@ public class ListActivity extends AppCompatActivity
         }
         protected void onPostExecute(Void result)
         {
-            listContent.removeAllViews();
             if(resultado!=null)
             {
-                SoapObject infoPalabra;
                 for(int i = 0; i< resultado.getPropertyCount();i++)
                 {
-                    infoPalabra = (SoapObject) resultado.getProperty(i);
-                    AddWord(infoPalabra.getProperty(1).toString(),Integer.parseInt(infoPalabra.getProperty(0).toString()));
+                    AddSubCategory(resultado.getProperty(i).toString());
                 }
             }
             else

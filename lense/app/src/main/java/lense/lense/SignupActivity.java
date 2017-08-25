@@ -110,14 +110,14 @@ public class SignupActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "AddUsuario";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/AddUsuario";
+            final String METHOD_NAME = "AddUsuario1";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/AddUsuario1";
             String Error;
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("name", userData.getName()); // Paso parametros al WS
-                request.addProperty("lastName", userData.getLastName()); // Paso parametros al WS
+                request.addProperty("lastname", userData.getLastName()); // Paso parametros al WS
                 request.addProperty("mail", userData.getMail()); // Paso parametros al WS
                 request.addProperty("password", userData.getPassword()); // Paso parametros al WS
 
@@ -159,9 +159,9 @@ public class SignupActivity extends AppCompatActivity {
             if(resultado!=null)
             {
                 String response = resultado.toString();
-                Boolean resp = Boolean.parseBoolean(response);
+                int resp = Integer.parseInt(response);
 
-                if(resp)
+                if(resp==1)
                 {
                     Toast toast = Toast.makeText(SignupActivity.this, "Registrado! Ya puedes iniciar sesión.", Toast.LENGTH_SHORT);
                     toast.show();

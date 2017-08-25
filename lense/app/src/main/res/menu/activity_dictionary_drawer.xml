@@ -8,11 +8,11 @@
             android:title="Lista Completa" />
 
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/category"
             android:icon="@drawable/category_icon"
             android:title="Categorías" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/change_region"
             android:icon="@drawable/map_icon"
             android:title="Cambiar Región" />
         <item
@@ -26,7 +26,5 @@
             android:title="Cerrar Sesión" />
 
     </group>
-
-
 
 </menu>

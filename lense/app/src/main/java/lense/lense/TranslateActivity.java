@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import com.koushikdutta.ion.Ion;
 
@@ -17,6 +18,7 @@ public class TranslateActivity extends AppCompatActivity {
     ImageView imageView;
     EditText translateText;
     ServerData serverData;
+    VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class TranslateActivity extends AppCompatActivity {
         }
         if(text.equals("b"))
         {
-            Ion.with(imageView).load("https://img.washingtonpost.com/express/wp-content/uploads/2016/04/ReaganWhiteBkgd.gif");
+            Ion.with(imageView).load("http://lensechile.cl/videos/VID-20170304-WA0003.mp4");
         }
     }
 }
