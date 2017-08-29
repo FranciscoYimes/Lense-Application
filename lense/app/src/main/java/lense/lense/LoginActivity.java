@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private Utils utils;
     private SimpleProgressDialog dialog;
     private LoginButton facebookButton;
-    CallbackManager callbackManager;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

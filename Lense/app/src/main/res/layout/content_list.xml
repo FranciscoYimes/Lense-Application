@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="290dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent">
 
             <ScrollView
@@ -45,14 +45,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
-                            android:visibility="gone"
-                            android:id="@+id/word_example"
-                            android:textSize="20dp"
-                            android:text="- Abeja"
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:id="@+id/word_content"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/word_image_view"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/word_example"
+                                android:textSize="20dp"
+                                android:text="Abeja"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

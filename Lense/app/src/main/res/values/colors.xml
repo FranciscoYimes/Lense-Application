@@ -9,5 +9,6 @@
     <color name="new_color_buttom">#6699FF </color>
     <color name="special_edit_text__text_color">#333333</color>
     <color name="special_edit_text__hint_color">#ff626262</color>
+    <color name="background_color">#f2f2f2</color>
 
 </resources>

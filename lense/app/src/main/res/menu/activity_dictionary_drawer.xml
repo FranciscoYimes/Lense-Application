@@ -3,22 +3,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/list"
-            android:icon="@drawable/list_icon"
-            android:title="Lista Completa" />
-
-        <item
             android:id="@+id/category"
             android:icon="@drawable/category_icon"
             android:title="Categorías" />
+        <item
+            android:id="@+id/list"
+            android:icon="@drawable/list_icon"
+            android:title="Señática" />
         <item
             android:id="@+id/change_region"
             android:icon="@drawable/map_icon"
             android:title="Cambiar Región" />
         <item
-            android:id="@+id/nav_account"
+            android:id="@+id/change_pass"
             android:icon="@drawable/account_icon"
-            android:title="Configurar Cuenta" />
+            android:title="Cambiar Contraseña" />
 
         <item
             android:id="@+id/logout_option"

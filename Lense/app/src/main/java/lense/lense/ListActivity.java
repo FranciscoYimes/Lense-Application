@@ -10,8 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.koushikdutta.ion.Ion;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -31,9 +34,11 @@ public class ListActivity extends AppCompatActivity
     private Toolbar mToolbar;
     private LinearLayout abcContent;
     private LinearLayout listContent;
+    private LinearLayout wordContent;
     private TextView abcTextViewExample;
     private TextView abcTextChar;
     private TextView wordExample;
+    private ImageView wordImageView;
     private String abc;
     private SimpleProgressDialog dialog;
 
@@ -57,6 +62,8 @@ public class ListActivity extends AppCompatActivity
         abcTextChar = (TextView) findViewById(R.id.ABC_Char);
         wordExample = (TextView) findViewById(R.id.word_example);
         listContent = (LinearLayout) findViewById(R.id.list_content);
+        wordContent = (LinearLayout) findViewById(R.id.word_content);
+        wordImageView = (ImageView) findViewById(R.id.word_image_view);
 
         SetListABC();
 
@@ -99,9 +106,13 @@ public class ListActivity extends AppCompatActivity
 
     public void AddWord(String word, int id)
     {
+        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+        linearLayout.setLayoutParams(wordContent.getLayoutParams());
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setLayoutParams(wordImageView.getLayoutParams());
         final TextView textView = new TextView(getApplicationContext());
         textView.setLayoutParams(wordExample.getLayoutParams());
-        textView.setText("- "+word);
+        textView.setText(word);
         textView.setTextColor(wordExample.getTextColors());
         textView.setTextSize(20);
         textView.setId(id);
@@ -114,7 +125,10 @@ public class ListActivity extends AppCompatActivity
                 finish();
             }
         });
-        listContent.addView(textView);
+        Ion.with(imageView).load("http://www.emoji.co.uk/files/apple-emojis/animals-nature-ios/215-panda-face.png");
+        linearLayout.addView(imageView);
+        linearLayout.addView(textView);
+        listContent.addView(linearLayout);
     }
 
     private class AddListWords extends AsyncTask<Void,Void,Void>

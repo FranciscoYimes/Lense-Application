@@ -35,5 +35,8 @@
     <string name="title_activity_category">Categorías</string>
     <string name="title_activity_sub_category">Sub Categorías</string>
     <string name="title_activity_words">Lista de Palabras</string>
+    <string name="title_activity_change_pass">Cambiar Contraseña</string>
+    <string name="title_activity_senatica">Señática</string>
+    <string name="title_activity_senatica_on_click">Señática</string>
 
 </resources>

@@ -13,12 +13,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -42,18 +44,52 @@ import lense.lense.server_conection.Utils;
 public class DictionaryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private final static String DEFAULT_URL = "";
+    private int idPalabra = 0;
+    private int idRegion;
+    private int sessionId;
     private ImageView imageView;
     private EditText translateText;
     private TextView categoryText;
     private TextView subCategoryText;
-    private int sessionId;
     private Utils utils;
     private String macAdress;
     private String palabra;
-    private int idPalabra = 0;
-    private int idRegion;
     private SimpleProgressDialog dialog;
-    private final static String DEFAULT_URL = "";
+    private Button goToABC;
+    private Button backToSearch;
+    private LinearLayout abcLayout;
+    private LinearLayout searchLayout;
+    private TextView mailText;
+    private TextView nameText;
+    private TextView regionText;
+    private Button letter_a;
+    private Button letter_b;
+    private Button letter_c;
+    private Button letter_d;
+    private Button letter_e;
+    private Button letter_f;
+    private Button letter_g;
+    private Button letter_h;
+    private Button letter_i;
+    private Button letter_j;
+    private Button letter_k;
+    private Button letter_l;
+    private Button letter_m;
+    private Button letter_n;
+    private Button letter_nn;
+    private Button letter_o;
+    private Button letter_p;
+    private Button letter_q;
+    private Button letter_r;
+    private Button letter_s;
+    private Button letter_t;
+    private Button letter_u;
+    private Button letter_v;
+    private Button letter_w;
+    private Button letter_x;
+    private Button letter_y;
+    private Button letter_z;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +104,203 @@ public class DictionaryActivity extends AppCompatActivity
 
         categoryText = (TextView) findViewById(R.id.category_text);
         subCategoryText = (TextView) findViewById(R.id.sub_category_text);
+        abcLayout = (LinearLayout) findViewById(R.id.abc_layout);
+        searchLayout = (LinearLayout) findViewById(R.id.search_layout);
+        backToSearch = (Button) findViewById(R.id.back_to_search);
+        goToABC = (Button) findViewById(R.id.go_to_abc);
         categoryText.setTypeface(walkwayBold);
         subCategoryText.setTypeface(walkwayBold);
+
+        letter_a = (Button) findViewById(R.id.a);
+        letter_b = (Button) findViewById(R.id.b);
+        letter_c = (Button) findViewById(R.id.c);
+        letter_d = (Button) findViewById(R.id.d);
+        letter_e = (Button) findViewById(R.id.e);
+        letter_f = (Button) findViewById(R.id.f);
+        letter_g = (Button) findViewById(R.id.g);
+        letter_h = (Button) findViewById(R.id.h);
+        letter_i = (Button) findViewById(R.id.i);
+        letter_j = (Button) findViewById(R.id.j);
+        letter_k = (Button) findViewById(R.id.k);
+        letter_l = (Button) findViewById(R.id.l);
+        letter_m = (Button) findViewById(R.id.m);
+        letter_n = (Button) findViewById(R.id.n);
+        letter_nn = (Button) findViewById(R.id.nn);
+        letter_o = (Button) findViewById(R.id.o);
+        letter_p = (Button) findViewById(R.id.p);
+        letter_q = (Button) findViewById(R.id.q);
+        letter_r = (Button) findViewById(R.id.r);
+        letter_s = (Button) findViewById(R.id.s);
+        letter_t = (Button) findViewById(R.id.t);
+        letter_u = (Button) findViewById(R.id.u);
+        letter_v = (Button) findViewById(R.id.v);
+        letter_w = (Button) findViewById(R.id.w);
+        letter_x = (Button) findViewById(R.id.x);
+        letter_y = (Button) findViewById(R.id.y);
+        letter_z = (Button) findViewById(R.id.z);
+
+        letter_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("A");
+            }
+        });
+        letter_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("B");
+            }
+        });
+        letter_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("C");
+            }
+        });
+        letter_d.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("D");
+            }
+        });
+        letter_e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("E");
+            }
+        });
+        letter_f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("F");
+            }
+        });
+        letter_g.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("G");
+            }
+        });
+        letter_h.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("H");
+            }
+        });
+        letter_i.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("I");
+            }
+        });
+        letter_j.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("J");
+            }
+        });
+        letter_k.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("K");
+            }
+        });
+        letter_l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("L");
+            }
+        });
+        letter_m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("M");
+            }
+        });
+        letter_n.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("N");
+            }
+        });
+        letter_nn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("Ñ");
+            }
+        });
+        letter_o.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("O");
+            }
+        });
+        letter_p.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("P");
+            }
+        });
+        letter_q.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("Q");
+            }
+        });
+        letter_r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("R");
+            }
+        });
+        letter_s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("S");
+            }
+        });
+        letter_t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("T");
+            }
+        });
+        letter_u.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("U");
+            }
+        });
+        letter_v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("V");
+            }
+        });
+        letter_w.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("W");
+            }
+        });
+        letter_x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("X");
+            }
+        });
+        letter_y.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("Y");
+            }
+        });
+        letter_z.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Translate("Z");
+            }
+        });
 
         dialog = SimpleProgressDialog.build(this, "Cargando...");
 
@@ -77,6 +308,24 @@ public class DictionaryActivity extends AppCompatActivity
         utils = new Utils();
         macAdress = utils.getMACAddress("wlan0");
 
+        goToABC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchLayout.setVisibility(View.GONE);
+                abcLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        backToSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abcLayout.setVisibility(View.GONE);
+                searchLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        new InfoUsuario().execute();
 
         Button translateButton = (Button) findViewById(R.id.translateButton);
         translateButton.setTypeface(walkwayBold);
@@ -96,6 +345,13 @@ public class DictionaryActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        View hView = navigationView.getHeaderView(0);
+
+        nameText = (TextView) hView.findViewById(R.id.username);
+        mailText = (TextView) hView.findViewById(R.id.mail);
+        regionText = (TextView) hView.findViewById(R.id.region);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -136,7 +392,7 @@ public class DictionaryActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.list) {
-            Intent i = new Intent(DictionaryActivity.this,ListActivity.class);
+            Intent i = new Intent(DictionaryActivity.this,SenaticaActivity.class);
             startActivityForResult(i,0);
         } else if (id == R.id.category) {
 
@@ -148,6 +404,11 @@ public class DictionaryActivity extends AppCompatActivity
         }
         else if (id == R.id.change_region) {
             new Regiones().execute();
+        }
+        else if (id == R.id.change_pass) {
+            Intent i = new Intent(DictionaryActivity.this,ChangePassActivity.class);
+            i.putExtra("sessionId",sessionId);
+            startActivityForResult(i,0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -254,6 +515,8 @@ public class DictionaryActivity extends AppCompatActivity
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("palabra", palabra); // Paso parametros al WS
+                request.addProperty("idRegion", idRegion); // Paso parametros al WS
+
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -433,6 +696,7 @@ public class DictionaryActivity extends AppCompatActivity
                 if(resultado.getProperty("SubCategoria")!=null)
                     subCategoryText.setText("Sub Categoría: "+resultado.getProperty("SubCategoria").toString());
                 else subCategoryText.setText("Sub Categoría: Sin Información");
+                if(resultado.getProperty("Nombre")!=null) translateText.setText(resultado.getProperty("Nombre").toString());
             }
             else
             {
@@ -606,5 +870,76 @@ public class DictionaryActivity extends AppCompatActivity
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private class InfoUsuario extends AsyncTask<Void,Void,Void>
+    {
+        SoapObject resultado;
+        SoapObject respuesta;
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String NAMESPACE = "http://tempuri.org/";
+            final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
+            final String METHOD_NAME = "infoUsuario";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/infoUsuario";
+            String Error;
+            try {
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("idUsuario", sessionId); // Paso parametros al WS
+
+                SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                sobre.dotNet = true;
+                sobre.setOutputSoapObject(request);
+
+                HttpTransportSE transporte = new HttpTransportSE(URL);
+
+                transporte.call(SOAP_ACTION, sobre);
+
+                resultado = (SoapObject) sobre.getResponse();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+                Error = soapFault.toString();
+
+
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+            }
+
+            return null;
+        }
+        protected void onPostExecute(Void result)
+        {
+            if(resultado!=null)
+            {
+                idRegion = Integer.parseInt(resultado.getProperty("Region").toString());
+                nameText.setText(resultado.getProperty("Nombre").toString()+" "+resultado.getProperty("Apellido").toString());
+                mailText.setText(resultado.getProperty("Mail").toString());
+                regionText.setText(resultado.getProperty("Region").toString());
+            }
+            else
+            {
+                idRegion = 1;
+            }
+            super.onPostExecute(result);
+        }
+    }
+
+    public void Translate(String letter)
+    {
+        palabra = letter;
+        new PalabrasWS().execute();
     }
 }

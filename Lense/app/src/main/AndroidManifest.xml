@@ -59,6 +59,18 @@
         <activity
             android:name=".WordsActivity"
             android:label="@string/title_activity_words"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ChangePassActivity"
+            android:label="@string/title_activity_change_pass"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SenaticaActivity"
+            android:label="@string/title_activity_senatica"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SenaticaOnClickActivity"
+            android:label="@string/title_activity_senatica_on_click"
             android:theme="@style/AppTheme"></activity>
     </application>
 
