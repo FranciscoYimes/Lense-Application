@@ -31,6 +31,7 @@ public class CategoryActivity extends AppCompatActivity {
     private LinearLayout lineLayoutExample;
     private TextView categoryTextExample;
     private int idPalabra;
+    private int idRegion;
     private SimpleProgressDialog dialog;
     private Toolbar mToolbar;
 
@@ -44,6 +45,8 @@ public class CategoryActivity extends AppCompatActivity {
         mToolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        idRegion = getIntent().getIntExtra("idRegion",0);
 
         contentCategory = (LinearLayout) findViewById(R.id.content_category);
         categoryLayoutExample = (LinearLayout) findViewById(R.id.category_layout_example);
@@ -78,6 +81,7 @@ public class CategoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(CategoryActivity.this,SubCategoryActivity.class);
                 i.putExtra("categoryName",textView.getText().toString());
+                i.putExtra("idRegion",idRegion);
                 startActivityForResult(i,0);
             }
         });
@@ -87,6 +91,7 @@ public class CategoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(CategoryActivity.this,SubCategoryActivity.class);
                 i.putExtra("categoryName",textView.getText().toString());
+                i.putExtra("idRegion",idRegion);
                 startActivityForResult(i,0);
             }
         });
@@ -120,7 +125,7 @@ public class CategoryActivity extends AppCompatActivity {
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                //request.addProperty("letraPalabra", abc); // Paso parametros al WS
+                request.addProperty("idRegion", idRegion); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

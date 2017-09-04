@@ -1,6 +1,7 @@
 package lense.lense;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,11 +29,14 @@ public class WordsActivity extends AppCompatActivity {
 
     private TextView wordExample;
     private LinearLayout listContent;
+    private LinearLayout lineLayout;
     private SimpleProgressDialog dialog;
     private String subCategoryName;
     private String categoryName;
     private int idPalabra;
+    private int idRegion;
     private Toolbar mToolbar;
+    private Typeface walkwayBold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,12 @@ public class WordsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        idRegion = getIntent().getIntExtra("idRegion",0);
+
+        walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
+
         listContent = (LinearLayout) findViewById(R.id.list_content);
+        lineLayout = (LinearLayout) findViewById(R.id.line_layout);
         wordExample = (TextView) findViewById(R.id.word_example);
         subCategoryName = getIntent().getStringExtra("subCategoryName");
         categoryName = getIntent().getStringExtra("categoryName");
@@ -63,8 +72,12 @@ public class WordsActivity extends AppCompatActivity {
     public void AddWord(String word, int id)
     {
         final TextView textView = new TextView(getApplicationContext());
+        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+        linearLayout.setLayoutParams(lineLayout.getLayoutParams());
+        linearLayout.setBackgroundColor(getResources().getColor(R.color.special_edit_text__text_color));
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         textView.setLayoutParams(wordExample.getLayoutParams());
-        textView.setText("- "+word);
+        textView.setText(word);
         textView.setTextColor(wordExample.getTextColors());
         textView.setTextSize(20);
         textView.setId(id);
@@ -78,6 +91,7 @@ public class WordsActivity extends AppCompatActivity {
             }
         });
         listContent.addView(textView);
+        listContent.addView(linearLayout);
     }
 
     private class AddWordsList extends AsyncTask<Void,Void,Void>
@@ -95,6 +109,7 @@ public class WordsActivity extends AppCompatActivity {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("categoria", categoryName); // Paso parametros al WS
                 request.addProperty("subCategoria", subCategoryName); // Paso parametros al WS
+                request.addProperty("idRegion", idRegion); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

@@ -13,18 +13,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
-
 import com.koushikdutta.ion.Ion;
 
 import org.ksoap2.SoapEnvelope;
@@ -37,14 +37,13 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import lense.lense.Adapters.SimpleProgressDialog;
 import lense.lense.server_conection.Utils;
 
 public class DictionaryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String DEFAULT_URL = "";
+    private final static String DEFAULT_URL = "https://media.tenor.com/images/9ac58fc24d97f36309a92177ba86b21e/tenor.gif";
     private int idPalabra = 0;
     private int idRegion;
     private int sessionId;
@@ -324,11 +323,23 @@ public class DictionaryActivity extends AppCompatActivity
             }
         });
 
+        translateText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    palabra = translateText.getText().toString();
+                    new PalabrasWS().execute();
+                    return false;
+                }
+                return false;
+            }
+        });
+
 
         new InfoUsuario().execute();
 
         Button translateButton = (Button) findViewById(R.id.translateButton);
-        translateButton.setTypeface(walkwayBold);
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,6 +408,7 @@ public class DictionaryActivity extends AppCompatActivity
         } else if (id == R.id.category) {
 
             Intent i = new Intent(DictionaryActivity.this,CategoryActivity.class);
+            i.putExtra("idRegion",idRegion);
             startActivityForResult(i,0);
 
         } else if (id == R.id.logout_option) {
@@ -419,7 +431,6 @@ public class DictionaryActivity extends AppCompatActivity
     public void setImageGif(String text)
     {
         imageView = (ImageView) findViewById(R.id.translateImageView);
-
         Ion.with(imageView).load(text);
     }
 
@@ -555,32 +566,43 @@ public class DictionaryActivity extends AppCompatActivity
         {
             if(resultado!=null)
             {
-                respuesta = (SoapObject) resultado.getProperty(0);
-
-                int res = Integer.parseInt(respuesta.getProperty("SiNo").toString());
-                if(res==0)
+                if(resultado.getProperty(0)!=null)
                 {
-                    if(respuesta.getProperty("Url")!=null)
-                        setImageGif(respuesta.getProperty("Url").toString());
-                    else
+                    respuesta = (SoapObject) resultado.getProperty(0);
+
+                    int res = Integer.parseInt(respuesta.getProperty("SiNo").toString());
+                    if(res==0)
                     {
-                        categoryText.setText("-");
-                        subCategoryText.setText("-");
-                        setImageGif(DEFAULT_URL);
+                        if(respuesta.getProperty("Url")!=null)
+                            setImageGif(respuesta.getProperty("Url").toString());
+                        else
+                        {
+                            categoryText.setText("-");
+                            subCategoryText.setText("-");
+                            setImageGif(DEFAULT_URL);
+                        }
+
+                        if(respuesta.getProperty("Categoria")!=null)
+                            categoryText.setText("Categoría: "+respuesta.getProperty("Categoria").toString());
+                        else categoryText.setText("Categoría: Sin Información");
+
+                        if(respuesta.getProperty("SubCategoria")!=null)
+                            subCategoryText.setText("Sub Categoría: "+respuesta.getProperty("SubCategoria").toString());
+                        else subCategoryText.setText("Sub Categoría: Sin Información");
+
                     }
-
-                    if(respuesta.getProperty("Categoria")!=null)
-                        categoryText.setText("Categoría: "+respuesta.getProperty("Categoria").toString());
-                    else categoryText.setText("Categoría: Sin Información");
-
-                    if(respuesta.getProperty("SubCategoria")!=null)
-                        subCategoryText.setText("Sub Categoría: "+respuesta.getProperty("SubCategoria").toString());
-                    else subCategoryText.setText("Sub Categoría: Sin Información");
-
+                    else    // mas de un caso
+                    {
+                        showDialog(resultado);
+                    }
                 }
-                else    // mas de un caso
+                else
                 {
-                    showDialog(resultado);
+                    Toast toast = Toast.makeText(DictionaryActivity.this, "Error al buscar.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    categoryText.setText("-");
+                    subCategoryText.setText("-");
+                    setImageGif(DEFAULT_URL);
                 }
             }
             else
@@ -589,6 +611,7 @@ public class DictionaryActivity extends AppCompatActivity
                 toast.show();
                 categoryText.setText("-");
                 subCategoryText.setText("-");
+                setImageGif(DEFAULT_URL);
             }
             dialog.dismiss();
             super.onPostExecute(result);

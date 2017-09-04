@@ -32,6 +32,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private TextView subCategoryTextExample;
     private String categoryName;
     private int idPalabra;
+    private int idRegion;
     private SimpleProgressDialog dialog;
     private Toolbar mToolbar;
 
@@ -45,6 +46,8 @@ public class SubCategoryActivity extends AppCompatActivity {
         mToolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        idRegion = getIntent().getIntExtra("idRegion",0);
 
         contentSubCategory = (LinearLayout) findViewById(R.id.content_sub_category);
         subCategoryLayoutExample = (LinearLayout) findViewById(R.id.sub_category_layout_example);
@@ -82,6 +85,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                 Intent i = new Intent(SubCategoryActivity.this,WordsActivity.class);
                 i.putExtra("subCategoryName",textView.getText().toString());
                 i.putExtra("categoryName",categoryName);
+                i.putExtra("idRegion",idRegion);
                 startActivityForResult(i,0);
             }
         });
@@ -92,6 +96,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                 Intent i = new Intent(SubCategoryActivity.this,WordsActivity.class);
                 i.putExtra("subCategoryName",textView.getText().toString());
                 i.putExtra("categoryName",categoryName);
+                i.putExtra("idRegion",idRegion);
                 startActivityForResult(i,0);
             }
         });
@@ -126,6 +131,7 @@ public class SubCategoryActivity extends AppCompatActivity {
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("Categoria", categoryName); // Paso parametros al WS
+                request.addProperty("idRegion", idRegion); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

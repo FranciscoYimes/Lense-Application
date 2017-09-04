@@ -27,7 +27,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_gravity="center_horizontal"
                     android:textSize="30dp"
-                    android:text="¿Qué es Señática?"
+                    android:text="¿Qué es Señático?"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -35,21 +35,22 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
                     android:textSize="18dp"
-                    android:text="Señática es jfdfjdhfj hdfjdhf ksdhksdh"
+                    android:text="Es un buscador que permite encontrar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_gravity="center_horizontal"
                     android:textSize="18dp"
-                    android:text="fdfjdhfj hdfjdhf ksdhksdh jhsdhsd."
+                    android:text="una seña mediante su configuración manual."
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="18dp"
-                    android:text="Escoge una letra para ver sus señas"
+                    android:textSize="19dp"
+                    android:text="Escoge una letra:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
