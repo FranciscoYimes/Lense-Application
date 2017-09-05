@@ -39,6 +39,7 @@ public class SenaticaActivity extends AppCompatActivity {
     private ImageView letter_x;
     private ImageView letter_y;
     private ImageView letter_z;
+    private int idRegion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class SenaticaActivity extends AppCompatActivity {
         mToolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        idRegion = getIntent().getIntExtra("idRegion",0);
 
         letter_a = (ImageView) findViewById(R.id.letter_a);
         letter_b = (ImageView) findViewById(R.id.letter_b);
@@ -254,6 +257,7 @@ public class SenaticaActivity extends AppCompatActivity {
     {
         Intent i = new Intent(SenaticaActivity.this,SenaticaOnClickActivity.class);
         i.putExtra("letter",letter);
+        i.putExtra("idRegion",idRegion);
         startActivity(i);
     }
 

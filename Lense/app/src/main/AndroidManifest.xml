@@ -23,10 +23,6 @@
         <activity android:name=".DictionaryActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".PassRecoveryActivity" />
-        <activity
-            android:name=".ListActivity"
-            android:label="@string/title_activity_list"
-            android:theme="@style/AppTheme2" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -51,27 +47,28 @@
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".SubCategoryActivity"
             android:label="@string/title_activity_sub_category"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".WordsActivity"
             android:label="@string/title_activity_words"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".ChangePassActivity"
             android:label="@string/title_activity_change_pass"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".SenaticaActivity"
             android:label="@string/title_activity_senatica"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".SenaticaOnClickActivity"
             android:label="@string/title_activity_senatica_on_click"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".FacebookRegisterActivity"></activity>
     </application>
 
 </manifest>

@@ -18,67 +18,55 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/content_senatica"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/content_senatico"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/content_sign"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:background="@color/new_color_buttom"
+                    android:visibility="gone"
+                    android:id="@+id/content_image_senatico"
+                    android:background="@drawable/accent_button"
+                    android:layout_marginTop="25dp"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp">
+                    android:layout_height="200dp">
 
                     <ImageView
-                        android:id="@+id/translateImageView"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="10dp"
+                        android:id="@+id/word_image_senatico"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    </ImageView>
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/word_text_senatico"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:text="Palabra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/category_text_senatico"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:text="Categoría: Vocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:id="@+id/content_description1"
-                    android:background="@color/new_color_back"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical"
+                    android:id="@+id/line_example"
+                    android:background="@color/line_color"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
-
-                    <LinearLayout
-                        android:id="@+id/content_description2"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/word_text"
-                            android:textColor="#fff"
-                            android:textSize="19dp"
-                            android:text="Palabra: Hola"
-                            android:layout_marginTop="5dp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:textColor="#fff"
-                            android:id="@+id/category_text"
-                            android:textSize="19dp"
-                            android:text="Categoría: Saludo"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:layout_height="1dp"/>
 
             </LinearLayout>
 

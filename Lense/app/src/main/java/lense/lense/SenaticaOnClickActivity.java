@@ -1,5 +1,6 @@
 package lense.lense;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -13,16 +14,30 @@ import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.SoapFault;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+import lense.lense.Adapters.SimpleProgressDialog;
+
 public class SenaticaOnClickActivity extends AppCompatActivity {
 
+    private final static String DEFAULT_URL = "https://raw.githubusercontent.com/FranciscoYimes/Lense-Application/master/as.gif";
     private String letter;
-    private LinearLayout contentSenatica;
-    private LinearLayout contentSign;
-    private LinearLayout contentDescription1;
-    private LinearLayout contentDescription2;
-    private ImageView translateImage;
-    private TextView wordT;
-    private TextView category;
+    private LinearLayout contentSenatico;
+    private LinearLayout contentSignExample;
+    private LinearLayout lineLayoutExample;
+    private ImageView signImageExample;
+    private TextView wordExample;
+    private TextView categoryExample;
+    private SimpleProgressDialog dialog;
+    private int idRegion;
 
     private Toolbar mToolbar;
 
@@ -44,60 +59,125 @@ public class SenaticaOnClickActivity extends AppCompatActivity {
             }
         });
 
+        dialog = SimpleProgressDialog.build(this, "Cargando...");
+
         letter = getIntent().getStringExtra("letter");
+        idRegion = getIntent().getIntExtra("idRegion",0);
 
-        contentSenatica = (LinearLayout) findViewById(R.id.content_senatica);
-        contentSign = (LinearLayout) findViewById(R.id.content_sign);
-        contentDescription1 = (LinearLayout) findViewById(R.id.content_description1);
-        contentDescription2 = (LinearLayout) findViewById(R.id.content_description2);
-        translateImage = (ImageView) findViewById(R.id.translateImageView);
-        wordT = (TextView) findViewById(R.id.word_text);
-        category = (TextView) findViewById(R.id.category_text);
+        contentSenatico = (LinearLayout) findViewById(R.id.content_senatico);
+        contentSignExample = (LinearLayout) findViewById(R.id.content_image_senatico);
+        lineLayoutExample = (LinearLayout) findViewById(R.id.line_example);
+        signImageExample = (ImageView) findViewById(R.id.word_image_senatico);
+        wordExample = (TextView) findViewById(R.id.word_text_senatico);
+        categoryExample = (TextView) findViewById(R.id.category_text_senatico);
 
-        AddSign("Hola","Saludo","http://i.stack.imgur.com/e8nZC.gif");
+        new GetListWords().execute();
 
     }
 
     public void AddSign(String word,String cat,String url)
     {
-        LinearLayout signContent = new LinearLayout(getApplicationContext());
-        LinearLayout desc1Content = new LinearLayout(getApplicationContext());
-        LinearLayout desc2Content = new LinearLayout(getApplicationContext());
+        LinearLayout contentSign = new LinearLayout(getApplicationContext());
+        LinearLayout lineLayout = new LinearLayout(getApplicationContext());
         TextView wordText = new TextView(getApplicationContext());
         TextView categoryText = new TextView(getApplicationContext());
         ImageView imageView = new ImageView(getApplicationContext());
 
-        signContent.setLayoutParams(contentSign.getLayoutParams());
-        desc1Content.setLayoutParams(contentDescription1.getLayoutParams());
-        desc2Content.setLayoutParams(contentDescription2.getLayoutParams());
-        wordText.setLayoutParams(wordT.getLayoutParams());
-        categoryText.setLayoutParams(category.getLayoutParams());
-        imageView.setLayoutParams(translateImage.getLayoutParams());
+        contentSign.setLayoutParams(contentSignExample.getLayoutParams());
+        lineLayout.setLayoutParams(lineLayoutExample.getLayoutParams());
+        wordText.setLayoutParams(wordExample.getLayoutParams());
+        categoryText.setLayoutParams(categoryExample.getLayoutParams());
+        imageView.setLayoutParams(signImageExample.getLayoutParams());
 
-        signContent.setOrientation(LinearLayout.VERTICAL);
-        desc1Content.setOrientation(LinearLayout.VERTICAL);
-        desc2Content.setOrientation(LinearLayout.VERTICAL);
+        contentSign.setOrientation(LinearLayout.VERTICAL);
+        contentSign.setBackground(getResources().getDrawable(R.drawable.accent_button));
 
-        signContent.setBackgroundColor(getResources().getColor(R.color.new_color_buttom));
-        desc1Content.setBackgroundColor(getResources().getColor(R.color.new_color_back));
-        wordText.setTextColor(wordT.getTextColors());
-        categoryText.setTextColor(category.getTextColors());
-
-        wordText.setTextSize(19);
-        categoryText.setTextSize(19);
-
-        wordText.setText(word);
-        categoryText.setText(cat);
         Ion.with(imageView).load(url);
 
-        signContent.addView(imageView);
+        contentSign.addView(imageView);
 
-        desc2Content.addView(wordText);
-        desc2Content.addView(categoryText);
-        desc1Content.addView(desc2Content);
+        wordText.setTextSize(20);
+        wordText.setTextColor(wordExample.getTextColors());
+        wordText.setText(word);
 
-        contentSenatica.addView(signContent);
-        contentSenatica.addView(desc1Content);
+        categoryText.setTextSize(20);
+        categoryText.setTextColor(categoryExample.getTextColors());
+        categoryText.setText("Categoría: "+cat);
+
+        lineLayout.setOrientation(LinearLayout.VERTICAL);
+        lineLayout.setBackgroundColor(getResources().getColor(R.color.line_color));
+
+        contentSenatico.addView(contentSign);
+        contentSenatico.addView(wordText);
+        contentSenatico.addView(categoryText);
+        contentSenatico.addView(lineLayout);
     }
 
+    private class GetListWords extends AsyncTask<Void,Void,Void>
+    {
+        SoapObject resultado;
+        SoapObject palabraRes;
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String NAMESPACE = "http://tempuri.org/";
+            final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
+            final String METHOD_NAME = "senatica";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/senatica";
+            String Error;
+            dialog.show();
+            try {
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("letra", letter); // Paso parametros al WS
+                request.addProperty("idRegion", idRegion); // Paso parametros al WS
+
+                SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                sobre.dotNet = true;
+                sobre.setOutputSoapObject(request);
+
+                HttpTransportSE transporte = new HttpTransportSE(URL);
+
+                transporte.call(SOAP_ACTION, sobre);
+
+                resultado = (SoapObject) sobre.getResponse();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+                Error = soapFault.toString();
+
+
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+            }
+
+            return null;
+        }
+        protected void onPostExecute(Void result)
+        {
+            if(resultado!=null)
+            {
+                for(int i = 0; i< resultado.getPropertyCount();i++)
+                {
+                    palabraRes = (SoapObject) resultado.getProperty(i);
+                }
+            }
+            else
+            {
+
+            }
+            dialog.dismiss();
+            super.onPostExecute(result);
+        }
+    }
 }

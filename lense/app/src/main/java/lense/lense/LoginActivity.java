@@ -15,12 +15,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -42,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView forgotPass;
     private Animation shake;
     private Button loginButton;
+    private ImageButton facebookLogin;
     private String mailText;
     private String passText;
     private ImageButton signUpButton;
@@ -50,6 +57,12 @@ public class LoginActivity extends AppCompatActivity {
     private SimpleProgressDialog dialog;
     private LoginButton facebookButton;
     private CallbackManager callbackManager;
+    private String email;
+    private String name;
+    private String lastName;
+    private String birthDay;
+    private String gender;
+    private int facebookId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +75,55 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.login__password);
         signUpButton = (ImageButton) findViewById(R.id.login__sign_up);
         forgotPass = (TextView) findViewById(R.id.LoginForgotPassword);
+        facebookLogin = (ImageButton) findViewById(R.id.facebook_login);
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
         callbackManager = CallbackManager.Factory.create();
 
-        //facebookButton.setReadPermissions("email");
-        //facebookButton.setReadPermissions("user_friends");
+        facebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                facebookButton.performClick();
+            }
+        });
+
+        facebookButton.setReadPermissions("email");
+        facebookButton.setReadPermissions("user_birthday");
         facebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast toast = Toast.makeText(LoginActivity.this, "Funciona.", Toast.LENGTH_SHORT);
-                toast.show();
+                Profile profile = Profile.getCurrentProfile();
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                try {
+                                    email = object.getString("email");
+                                    gender = object.getString("gender");
+                                    birthDay = object.getString("birthday");
+                                    name = object.getString("first_name");
+                                    facebookId = object.getInt("id");
+                                    lastName = object.getString("last_name");
+
+                                    if(!email.equals("") && email!=null)
+                                    {
+                                        //new sendEmailInfo().execute();
+                                    }
+                                    else
+                                    {
+                                        Toast toast = Toast.makeText(LoginActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday,first_name,last_name");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -206,5 +258,104 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
             }
         }
+    }
+
+    private class sendEmailInfo extends AsyncTask<Void,Void,Void>
+    {
+        SoapPrimitive resultado;
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String NAMESPACE = "http://tempuri.org/";
+            final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
+            final String METHOD_NAME = "Login";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/Login";
+            String Error;
+            dialog.show();
+            try {
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("mail", email); // Paso parametros al WS
+                request.addProperty("macAdress", macAdress); // Paso parametros al WS
+
+                SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                sobre.dotNet = true;
+                sobre.setOutputSoapObject(request);
+
+                HttpTransportSE transporte = new HttpTransportSE(URL);
+
+                transporte.call(SOAP_ACTION, sobre);
+
+                resultado = (SoapPrimitive) sobre.getResponse();
+
+                Log.i("Resultado", resultado.toString());
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Error = e.toString();
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+                Error = soapFault.toString();
+
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Error = e.toString();
+
+            }
+
+            return null;
+        }
+        protected void onPostExecute(Void result)
+        {
+            dialog.dismiss();
+            if(resultado != null)
+            {
+
+                if(Integer.parseInt(resultado.toString())>0)
+                {
+
+                    Intent i = new Intent(LoginActivity.this,DictionaryActivity.class);
+                    i.putExtra("sessionId",Integer.parseInt(resultado.toString()));
+                    startActivity(i);
+                    finish();
+                }
+                else
+                {
+                    if(!email.equals("") && !name.equals("") && !lastName.equals(""))
+                    {
+                        Intent i = new Intent(LoginActivity.this,FacebookRegisterActivity.class);
+                        i.putExtra("email",email);
+                        i.putExtra("name",name);
+                        i.putExtra("lastName",lastName);
+                        i.putExtra("birthDay",birthDay);
+                        i.putExtra("gender",gender);
+                        i.putExtra("facebookId",facebookId);
+                        startActivity(i);
+                        finish();
+                    }
+                    else
+                    {
+                        Toast toast = Toast.makeText(LoginActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+
+                super.onPostExecute(result);
+            }
+            else
+            {
+                Toast toast = Toast.makeText(LoginActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

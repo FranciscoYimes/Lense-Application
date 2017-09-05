@@ -14,49 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="150dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="30dp"
-                    android:text="¿Qué es Señático?"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30dp"
+            android:text="Escoge una letra:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="18dp"
-                    android:text="Es un buscador que permite encontrar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="18dp"
-                    android:text="una seña mediante su configuración manual."
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="19dp"
-                    android:text="Escoge una letra:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-        </ScrollView>
 
         <ScrollView
             android:layout_marginTop="20dp"

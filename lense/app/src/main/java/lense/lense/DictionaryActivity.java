@@ -43,10 +43,11 @@ import lense.lense.server_conection.Utils;
 public class DictionaryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String DEFAULT_URL = "https://media.tenor.com/images/9ac58fc24d97f36309a92177ba86b21e/tenor.gif";
+    private final static String DEFAULT_URL = "https://raw.githubusercontent.com/FranciscoYimes/Lense-Application/master/as.gif";
     private int idPalabra = 0;
     private int idRegion;
     private int sessionId;
+    private String[] regiones;
     private ImageView imageView;
     private EditText translateText;
     private TextView categoryText;
@@ -96,6 +97,8 @@ public class DictionaryActivity extends AppCompatActivity
         setContentView(R.layout.activity_dictionary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        regiones = new String[]{"Región Metropolitana", "V de Valparaíso","XV Arica y Parinacota","I Tarapacá","II Antofagasta","III Atacama","IV Coquimbo","VI O'Higgins","VII Maule","VIII Biobío","IX La Araucanía","XIV Los Ríos","X Los Lagos","XI Aysén","XII Magallanes y Antártica"};
 
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
         translateText = (EditText) findViewById(R.id.translate_text);
@@ -328,8 +331,12 @@ public class DictionaryActivity extends AppCompatActivity
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    palabra = translateText.getText().toString();
-                    new PalabrasWS().execute();
+
+                    if(!translateText.getText().toString().equals(""))
+                    {
+                        palabra = translateText.getText().toString();
+                        new PalabrasWS().execute();
+                    }
                     return false;
                 }
                 return false;
@@ -343,9 +350,12 @@ public class DictionaryActivity extends AppCompatActivity
         translateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //setImageGif(translateText.getText().toString());
-                palabra = translateText.getText().toString();
-                new PalabrasWS().execute();
+
+                if(!translateText.getText().toString().equals(""))
+                {
+                    palabra = translateText.getText().toString();
+                    new PalabrasWS().execute();
+                }
             }
         });
 
@@ -404,6 +414,7 @@ public class DictionaryActivity extends AppCompatActivity
 
         if (id == R.id.list) {
             Intent i = new Intent(DictionaryActivity.this,SenaticaActivity.class);
+            i.putExtra("idRegion",idRegion);
             startActivityForResult(i,0);
         } else if (id == R.id.category) {
 
@@ -853,6 +864,8 @@ public class DictionaryActivity extends AppCompatActivity
                 {
                     Toast toast = Toast.makeText(DictionaryActivity.this, "La región ha sido cambiada.", Toast.LENGTH_SHORT);
                     toast.show();
+                    if(idRegion<=regiones.length) regionText.setText(regiones[idRegion-1]);
+                    else regionText.setText("Error");
                 }
                 else
                 {
@@ -950,7 +963,10 @@ public class DictionaryActivity extends AppCompatActivity
                 idRegion = Integer.parseInt(resultado.getProperty("Region").toString());
                 nameText.setText(resultado.getProperty("Nombre").toString()+" "+resultado.getProperty("Apellido").toString());
                 mailText.setText(resultado.getProperty("Mail").toString());
-                regionText.setText(resultado.getProperty("Region").toString());
+                int reg = Integer.parseInt(resultado.getProperty("Region").toString());
+
+                if(idRegion<=regiones.length) regionText.setText(regiones[reg-1]);
+                else regionText.setText("Error");
             }
             else
             {
@@ -962,7 +978,10 @@ public class DictionaryActivity extends AppCompatActivity
 
     public void Translate(String letter)
     {
-        palabra = letter;
-        new PalabrasWS().execute();
+        if(!letter.equals(""))
+        {
+            palabra = letter;
+            new PalabrasWS().execute();
+        }
     }
 }

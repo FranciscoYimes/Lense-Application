@@ -96,11 +96,23 @@
                     android:src="@drawable/login_buttom__min_google" />
 
                 <com.facebook.login.widget.LoginButton
+                    android:visibility="gone"
                     android:id="@+id/facebook_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/FacebookLoginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp" />
+                     />
+
+                <ImageButton
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:id="@+id/facebook_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/login_button__min_facebook" />
 
             </LinearLayout>
 
