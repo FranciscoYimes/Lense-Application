@@ -104,20 +104,20 @@ public class FacebookRegisterActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "Login";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/Login";
+            final String METHOD_NAME = "createUaerFacebook";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/createUaerFacebook";
             String Error;
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("email", email); // Paso parametros al WS
+                request.addProperty("mail", email); // Paso parametros al WS
                 request.addProperty("name", name); // Paso parametros al WS
                 request.addProperty("lastName", lastName); // Paso parametros al WS
                 request.addProperty("macAddress", utils.getMACAddress("wlan0")); // Paso parametros al WS
                 request.addProperty("gender", gender); // Paso parametros al WS
                 request.addProperty("birthDay", birthDay); // Paso parametros al WS
-                request.addProperty("facebookId", facebookId); // Paso parametros al WS
-
+                request.addProperty("facebookId", String.valueOf(facebookId)); // Paso parametros al WS
+                request.addProperty("password", password); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
@@ -154,10 +154,8 @@ public class FacebookRegisterActivity extends AppCompatActivity {
             dialog.dismiss();
             if(resultado != null)
             {
-
                 if(Integer.parseInt(resultado.toString())>0)
                 {
-
                     Intent i = new Intent(FacebookRegisterActivity.this,DictionaryActivity.class);
                     i.putExtra("sessionId",Integer.parseInt(resultado.toString()));
                     startActivity(i);
@@ -165,16 +163,22 @@ public class FacebookRegisterActivity extends AppCompatActivity {
                 }
                 else
                 {
-
+                    Intent i = new Intent(FacebookRegisterActivity.this,LoginActivity.class);
+                    startActivity(i);
+                    Toast toast = Toast.makeText(FacebookRegisterActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    finish();
                 }
-
-                super.onPostExecute(result);
             }
             else
             {
+                Intent i = new Intent(FacebookRegisterActivity.this,LoginActivity.class);
+                startActivity(i);
                 Toast toast = Toast.makeText(FacebookRegisterActivity.this, "Estamos presentando problemas, por favor intentalo más tarde.", Toast.LENGTH_SHORT);
                 toast.show();
+                finish();
             }
+            super.onPostExecute(result);
         }
     }
 }

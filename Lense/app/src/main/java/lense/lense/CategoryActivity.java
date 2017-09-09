@@ -32,6 +32,7 @@ public class CategoryActivity extends AppCompatActivity {
     private TextView categoryTextExample;
     private int idPalabra;
     private int idRegion;
+    private int idUsuario;
     private SimpleProgressDialog dialog;
     private Toolbar mToolbar;
 
@@ -47,6 +48,7 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         idRegion = getIntent().getIntExtra("idRegion",0);
+        idUsuario = getIntent().getIntExtra("idUsuario",0);
 
         contentCategory = (LinearLayout) findViewById(R.id.content_category);
         categoryLayoutExample = (LinearLayout) findViewById(R.id.category_layout_example);
@@ -126,6 +128,7 @@ public class CategoryActivity extends AppCompatActivity {
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("idRegion", idRegion); // Paso parametros al WS
+                request.addProperty("idUsuario", idUsuario); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

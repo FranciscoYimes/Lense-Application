@@ -22,6 +22,7 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -79,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
         callbackManager = CallbackManager.Factory.create();
 
+        LoginManager.getInstance().logOut();
+
         facebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     if(!email.equals("") && email!=null)
                                     {
-                                        //new sendEmailInfo().execute();
+                                        new sendEmailInfo().execute();
                                     }
                                     else
                                     {
@@ -267,14 +270,14 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             final String NAMESPACE = "http://tempuri.org/";
             final String URL = "http://www.lensechile.cl/lenseservice/Service1.svc";
-            final String METHOD_NAME = "Login";
-            final String SOAP_ACTION = "http://tempuri.org/IService1/Login";
+            final String METHOD_NAME = "comprobarMail";
+            final String SOAP_ACTION = "http://tempuri.org/IService1/comprobarMail";
             String Error;
             dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("mail", email); // Paso parametros al WS
-                request.addProperty("macAdress", macAdress); // Paso parametros al WS
+                request.addProperty("macAddress", macAdress); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

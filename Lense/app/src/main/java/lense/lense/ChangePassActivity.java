@@ -164,6 +164,7 @@ public class ChangePassActivity extends AppCompatActivity {
                 {
                     Toast toast = Toast.makeText(ChangePassActivity.this, "La contraseña ha sido cambiada.", Toast.LENGTH_SHORT);
                     toast.show();
+                    finish();
                 }
                 else
                 {

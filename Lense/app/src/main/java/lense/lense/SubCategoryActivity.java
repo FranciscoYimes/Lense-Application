@@ -33,6 +33,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private String categoryName;
     private int idPalabra;
     private int idRegion;
+    private int idUsuario;
     private SimpleProgressDialog dialog;
     private Toolbar mToolbar;
 
@@ -48,6 +49,7 @@ public class SubCategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         idRegion = getIntent().getIntExtra("idRegion",0);
+        idUsuario = getIntent().getIntExtra("idUsuario",0);
 
         contentSubCategory = (LinearLayout) findViewById(R.id.content_sub_category);
         subCategoryLayoutExample = (LinearLayout) findViewById(R.id.sub_category_layout_example);
@@ -132,6 +134,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("Categoria", categoryName); // Paso parametros al WS
                 request.addProperty("idRegion", idRegion); // Paso parametros al WS
+                request.addProperty("idUsuario", idUsuario); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;

@@ -92,17 +92,22 @@ public class SenaticaOnClickActivity extends AppCompatActivity {
         contentSign.setOrientation(LinearLayout.VERTICAL);
         contentSign.setBackground(getResources().getDrawable(R.drawable.accent_button));
 
-        Ion.with(imageView).load(url);
+        if(url ==null) Ion.with(imageView).load(DEFAULT_URL);
+        else Ion.with(imageView).load(url);
 
         contentSign.addView(imageView);
 
         wordText.setTextSize(20);
         wordText.setTextColor(wordExample.getTextColors());
-        wordText.setText(word);
+
+        if(word==null) wordText.setText("Error");
+        else wordText.setText(word);
 
         categoryText.setTextSize(20);
         categoryText.setTextColor(categoryExample.getTextColors());
-        categoryText.setText("Categoría: "+cat);
+
+        if(cat==null) categoryText.setText("Categoría: No Encontrado");
+        else categoryText.setText("Categoría: "+cat);
 
         lineLayout.setOrientation(LinearLayout.VERTICAL);
         lineLayout.setBackgroundColor(getResources().getColor(R.color.line_color));
@@ -170,6 +175,9 @@ public class SenaticaOnClickActivity extends AppCompatActivity {
                 for(int i = 0; i< resultado.getPropertyCount();i++)
                 {
                     palabraRes = (SoapObject) resultado.getProperty(i);
+                    if(palabraRes.getProperty("Nombre")!=null && palabraRes.getProperty("Categoria")!=null && palabraRes.getProperty("Url")!=null)
+                        AddSign(palabraRes.getProperty("Nombre").toString(),palabraRes.getProperty("Categoria").toString(),palabraRes.getProperty("Url").toString());
+
                 }
             }
             else

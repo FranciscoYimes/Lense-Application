@@ -169,8 +169,16 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast toast = Toast.makeText(SignupActivity.this, "No se ha podido registrar, vuelve a intentarlo más tarde.", Toast.LENGTH_SHORT);
-                    toast.show();
+                    if(resp==-1)
+                    {
+                        Toast toast = Toast.makeText(SignupActivity.this, "El correo ingresado ya se encuentra registrado.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else
+                    {
+                        Toast toast = Toast.makeText(SignupActivity.this, "No se ha podido registrar, vuelve a intentarlo más tarde.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
             }
             else

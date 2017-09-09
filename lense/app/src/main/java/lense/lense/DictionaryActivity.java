@@ -1,5 +1,7 @@
 package lense.lense;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -18,7 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +39,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+
+import lense.lense.Adapters.Region;
 import lense.lense.Adapters.SimpleProgressDialog;
 import lense.lense.server_conection.Utils;
 
@@ -47,7 +51,7 @@ public class DictionaryActivity extends AppCompatActivity
     private int idPalabra = 0;
     private int idRegion;
     private int sessionId;
-    private String[] regiones;
+    private Region[] listaRegiones;
     private ImageView imageView;
     private EditText translateText;
     private TextView categoryText;
@@ -97,8 +101,6 @@ public class DictionaryActivity extends AppCompatActivity
         setContentView(R.layout.activity_dictionary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        regiones = new String[]{"Región Metropolitana", "V de Valparaíso","XV Arica y Parinacota","I Tarapacá","II Antofagasta","III Atacama","IV Coquimbo","VI O'Higgins","VII Maule","VIII Biobío","IX La Araucanía","XIV Los Ríos","X Los Lagos","XI Aysén","XII Magallanes y Antártica"};
 
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
         translateText = (EditText) findViewById(R.id.translate_text);
@@ -310,6 +312,8 @@ public class DictionaryActivity extends AppCompatActivity
         utils = new Utils();
         macAdress = utils.getMACAddress("wlan0");
 
+        new GetRegiones().execute();
+
         goToABC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -374,6 +378,7 @@ public class DictionaryActivity extends AppCompatActivity
         regionText = (TextView) hView.findViewById(R.id.region);
 
         navigationView.setNavigationItemSelectedListener(this);
+        hideKeyboardFrom();
     }
 
     @Override
@@ -415,18 +420,20 @@ public class DictionaryActivity extends AppCompatActivity
         if (id == R.id.list) {
             Intent i = new Intent(DictionaryActivity.this,SenaticaActivity.class);
             i.putExtra("idRegion",idRegion);
+            i.putExtra("idUsuario",sessionId);
             startActivityForResult(i,0);
         } else if (id == R.id.category) {
 
             Intent i = new Intent(DictionaryActivity.this,CategoryActivity.class);
             i.putExtra("idRegion",idRegion);
+            i.putExtra("idUsuario",sessionId);
             startActivityForResult(i,0);
 
         } else if (id == R.id.logout_option) {
             new Logout().execute();
         }
         else if (id == R.id.change_region) {
-            new Regiones().execute();
+            showRegionsDialog();
         }
         else if (id == R.id.change_pass) {
             Intent i = new Intent(DictionaryActivity.this,ChangePassActivity.class);
@@ -538,6 +545,7 @@ public class DictionaryActivity extends AppCompatActivity
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
                 request.addProperty("palabra", palabra); // Paso parametros al WS
                 request.addProperty("idRegion", idRegion); // Paso parametros al WS
+                request.addProperty("idUsuario", sessionId); // Paso parametros al WS
 
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -744,7 +752,7 @@ public class DictionaryActivity extends AppCompatActivity
         }
     }
 
-    private class Regiones extends AsyncTask<Void,Void,Void>
+    private class GetRegiones extends AsyncTask<Void,Void,Void>
     {
         SoapObject resultado;
         @Override
@@ -754,7 +762,6 @@ public class DictionaryActivity extends AppCompatActivity
             final String METHOD_NAME = "regiones";
             final String SOAP_ACTION = "http://tempuri.org/IService1/regiones";
             String Error;
-            dialog.show();
             try {
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 
@@ -795,14 +802,25 @@ public class DictionaryActivity extends AppCompatActivity
         {
             if(resultado!=null)
             {
-                showRegionsDialog(resultado);
+                AddRegiones(resultado);
             }
             else
             {
 
             }
-            dialog.dismiss();
             super.onPostExecute(result);
+        }
+    }
+
+    public void AddRegiones(SoapObject soapObject)
+    {
+        listaRegiones = new Region[soapObject.getPropertyCount()];
+
+        SoapObject region;
+        for(int i=0;i<soapObject.getPropertyCount();i++)
+        {
+            region = (SoapObject) soapObject.getProperty(i);
+            listaRegiones[i] = new Region(region.getProperty(1).toString(),Integer.parseInt(region.getProperty(0).toString()));
         }
     }
 
@@ -864,7 +882,7 @@ public class DictionaryActivity extends AppCompatActivity
                 {
                     Toast toast = Toast.makeText(DictionaryActivity.this, "La región ha sido cambiada.", Toast.LENGTH_SHORT);
                     toast.show();
-                    if(idRegion<=regiones.length) regionText.setText(regiones[idRegion-1]);
+                    if(idRegion<=listaRegiones.length) regionText.setText(getRegionName(idRegion));
                     else regionText.setText("Error");
                 }
                 else
@@ -883,16 +901,23 @@ public class DictionaryActivity extends AppCompatActivity
         }
     }
 
-    public void showRegionsDialog(SoapObject soapObject)
+    public String getRegionName(int id)
     {
-        final CharSequence[] items = new CharSequence[soapObject.getPropertyCount()];
-        final int[] ids = new int[soapObject.getPropertyCount()];
-        SoapObject region;
-        for(int i=0;i<soapObject.getPropertyCount();i++)
+        for(int i=0;i<listaRegiones.length;i++)
         {
-            region = (SoapObject) soapObject.getProperty(i);
-            items[i] = region.getProperty(1).toString();
-            ids[i] = Integer.parseInt(region.getProperty(0).toString());
+            if(listaRegiones[i].idRegion==id) return listaRegiones[i].nombreRegion;
+        }
+        return "Region no encontrada";
+    }
+
+    public void showRegionsDialog()
+    {
+        final CharSequence[] items = new CharSequence[listaRegiones.length];
+        final int[] ids = new int[listaRegiones.length];
+        for(int i=0;i<listaRegiones.length;i++)
+        {
+            items[i] = listaRegiones[i].nombreRegion;
+            ids[i] = listaRegiones[i].idRegion;
 
         }
 
@@ -965,7 +990,7 @@ public class DictionaryActivity extends AppCompatActivity
                 mailText.setText(resultado.getProperty("Mail").toString());
                 int reg = Integer.parseInt(resultado.getProperty("Region").toString());
 
-                if(idRegion<=regiones.length) regionText.setText(regiones[reg-1]);
+                if(idRegion<=listaRegiones.length) regionText.setText(getRegionName(idRegion));
                 else regionText.setText("Error");
             }
             else
@@ -983,5 +1008,9 @@ public class DictionaryActivity extends AppCompatActivity
             palabra = letter;
             new PalabrasWS().execute();
         }
+    }
+    public void hideKeyboardFrom() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 }

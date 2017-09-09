@@ -35,6 +35,7 @@ public class WordsActivity extends AppCompatActivity {
     private String categoryName;
     private int idPalabra;
     private int idRegion;
+    private int idUsuario;
     private Toolbar mToolbar;
     private Typeface walkwayBold;
 
@@ -50,6 +51,7 @@ public class WordsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         idRegion = getIntent().getIntExtra("idRegion",0);
+        idUsuario = getIntent().getIntExtra("idUsuario",0);
 
         walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
 
@@ -110,6 +112,7 @@ public class WordsActivity extends AppCompatActivity {
                 request.addProperty("categoria", categoryName); // Paso parametros al WS
                 request.addProperty("subCategoria", subCategoryName); // Paso parametros al WS
                 request.addProperty("idRegion", idRegion); // Paso parametros al WS
+                request.addProperty("idUsuario", idUsuario); // Paso parametros al WS
 
                 SoapSerializationEnvelope sobre = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 sobre.dotNet = true;
