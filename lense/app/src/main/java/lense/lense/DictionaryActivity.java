@@ -47,7 +47,7 @@ import lense.lense.server_conection.Utils;
 public class DictionaryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String DEFAULT_URL = "https://raw.githubusercontent.com/FranciscoYimes/Lense-Application/master/as.gif";
+    private final static String DEFAULT_URL = "https://raw.githubusercontent.com/FranciscoYimes/Lense-Application/master/Abuelo.gif";
     private int idPalabra = 0;
     private int idRegion;
     private int sessionId;
