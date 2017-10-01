@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".TranslateActivity" />
         <activity android:name=".DictionaryActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".PassRecoveryActivity" />
@@ -53,10 +52,6 @@
             android:label="@string/title_activity_sub_category"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".WordsActivity"
-            android:label="@string/title_activity_words"
-            android:theme="@style/AppTheme2" />
-        <activity
             android:name=".ChangePassActivity"
             android:label="@string/title_activity_change_pass"
             android:theme="@style/AppTheme2" />
@@ -68,7 +63,11 @@
             android:name=".SenaticaOnClickActivity"
             android:label="@string/title_activity_senatica_on_click"
             android:theme="@style/AppTheme2" />
-        <activity android:name=".FacebookRegisterActivity"></activity>
+        <activity android:name=".FacebookRegisterActivity" />
+        <activity
+            android:name=".WordsActivity"
+            android:label="@string/title_activity_words"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

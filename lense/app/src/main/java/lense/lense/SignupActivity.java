@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import lense.lense.Adapters.SimpleProgressDialog;
+import lense.lense.Adapters.UserData;
 
 public class SignupActivity extends AppCompatActivity {
 

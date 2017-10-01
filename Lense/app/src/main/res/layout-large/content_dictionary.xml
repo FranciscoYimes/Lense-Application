@@ -21,26 +21,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="336dp"
                 android:layout_gravity="center"
                 android:background="@color/new_color_buttom2"
                 android:orientation="vertical">
 
                 <WebView
-
                     android:background="@color/new_color_buttom2"
-                    android:layout_marginTop="30sp"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/web"
-                    android:layout_width="256dp"
-                    android:layout_height="192dp">
+                    android:layout_width="448dp"
+                    android:layout_height="336dp">
                 </WebView>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="100dp"
                 android:background="@color/new_color_back"
                 android:orientation="vertical">
 
@@ -55,10 +53,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="7dp"
-                        android:text="Categoría: Vocal"
+                        android:layout_marginTop="15dp"
+                        android:text="Categoría: Vocalxx"
                         android:textColor="#fff"
-                        android:textSize="19dp" />
+                        android:textSize="29sp" />
 
                     <TextView
                         android:id="@+id/sub_category_text"
@@ -67,13 +65,14 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Subcategoría: Vocal"
                         android:textColor="#fff"
-                        android:textSize="19dp" />
+                        android:textSize="29sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,12 +82,13 @@
                     android:id="@+id/translate_text"
                     style="@style/SpecialEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:ems="10"
+                    android:textSize="29dp"
                     android:imeOptions="actionSearch"
                     android:hint="Palabra a traducir"
                     android:inputType="textAutoComplete" />
@@ -97,17 +97,18 @@
                     android:text="Buscar"
                     android:id="@+id/translateButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     style="@style/AccentButton"
+
                     />
 
                 <Button
                     android:id="@+id/go_to_abc"
                     style="@style/AccentButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -120,71 +121,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
-                android:visibility="gone">
+                >
 
                 <Button
                     android:id="@+id/back_to_search"
                     style="@style/AccentButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="Volver al Buscador" />
 
                 <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/a"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:background="@drawable/letter_a" />
 
                     <Button
                         android:id="@+id/b"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_b" />
 
                     <Button
                         android:id="@+id/c"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_c" />
 
                     <Button
                         android:id="@+id/d"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_d" />
 
                     <Button
                         android:id="@+id/e"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_e" />
 
                     <Button
                         android:id="@+id/f"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_f" />
 
                     <Button
                         android:id="@+id/g"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_g" />
@@ -193,56 +195,56 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/h"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:background="@drawable/letter_h" />
 
                     <Button
                         android:id="@+id/i"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_i" />
 
                     <Button
                         android:id="@+id/j"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_j" />
 
                     <Button
                         android:id="@+id/k"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_k" />
 
                     <Button
                         android:id="@+id/l"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_l" />
 
                     <Button
                         android:id="@+id/m"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_m" />
 
                     <Button
                         android:id="@+id/n"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_n" />
@@ -251,56 +253,56 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/nn"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:background="@drawable/letter_nn" />
 
                     <Button
                         android:id="@+id/o"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_o" />
 
                     <Button
                         android:id="@+id/p"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_p" />
 
                     <Button
                         android:id="@+id/q"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_q" />
 
                     <Button
                         android:id="@+id/r"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_r" />
 
                     <Button
                         android:id="@+id/s"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_s" />
 
                     <Button
                         android:id="@+id/t"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_t" />
@@ -309,35 +311,35 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/u"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_u" />
 
                     <Button
                         android:id="@+id/v"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_v" />
 
                     <Button
                         android:id="@+id/w"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_w" />
 
                     <Button
                         android:id="@+id/x"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_x" />
@@ -351,7 +353,7 @@
 
                     <Button
                         android:id="@+id/z"
-                        android:layout_width="45dp"
+                        android:layout_width="65dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:background="@drawable/letter_z" />

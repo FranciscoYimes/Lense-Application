@@ -2,25 +2,32 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/new_color_back">
 
     <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-30dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/splashImage"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginTop="190dp"
-            android:contentDescription="@string/lense_banner_image"
-            android:layout_gravity="center"
-            android:src="@drawable/splash_icon" />
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/splashImage"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:contentDescription="@string/lense_banner_image"
+                android:layout_gravity="center"
+                android:src="@drawable/splash_icon" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

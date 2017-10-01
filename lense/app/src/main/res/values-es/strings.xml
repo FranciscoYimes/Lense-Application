@@ -28,4 +28,19 @@
     <string name="title_activity_senatica">Señático</string>
     <string name="title_activity_senatica_on_click">Señático</string>
 
+    <string name="wcf">http://www.lensechile.cl/lenseservice/Service1.svc?singleWsdl</string>
+    <string name="method_prueba_pancho">pruebapancho</string>
+    <!-- Login Activity -->
+
+
+    <string name="title_activity_dictionary">Lense</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="facebook_app_id">116675005662896</string>
+    <string name="fb_login_protocol_scheme">fb116675005662896</string>
+
 </resources>

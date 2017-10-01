@@ -1,4 +1,4 @@
-package lense.lense;
+package lense.lense.Adapters;
 
 /**
  * Created by franciscoyimesinostroza on 04-06-17.
@@ -46,7 +46,7 @@ public class UserData {
     private String mail;
     private String password;
 
-    public UserData(String name,String lastName,String mail,String password)
+    public UserData(String name, String lastName, String mail, String password)
     {
         this.name = name;
         this.lastName = lastName;

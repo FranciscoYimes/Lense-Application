@@ -1,7 +1,6 @@
 package lense.lense;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,13 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.koushikdutta.ion.Ion;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -47,15 +45,13 @@ import lense.lense.server_conection.Utils;
 public class DictionaryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String DEFAULT_URL = "https://raw.githubusercontent.com/FranciscoYimes/Lense-Application/master/Abuelo.gif";
+    private final static String DEFAULT_URL = "Default.gif";
     private int idPalabra = 0;
     private int idRegion;
     private int sessionId;
+
+    private String ruta;
     private Region[] listaRegiones;
-    private ImageView imageView;
-    private EditText translateText;
-    private TextView categoryText;
-    private TextView subCategoryText;
     private Utils utils;
     private String macAdress;
     private String palabra;
@@ -64,9 +60,13 @@ public class DictionaryActivity extends AppCompatActivity
     private Button backToSearch;
     private LinearLayout abcLayout;
     private LinearLayout searchLayout;
+    private WebView webView;
+    private EditText translateText;
     private TextView mailText;
     private TextView nameText;
     private TextView regionText;
+    private TextView categoryText;
+    private TextView subCategoryText;
     private Button letter_a;
     private Button letter_b;
     private Button letter_c;
@@ -104,7 +104,6 @@ public class DictionaryActivity extends AppCompatActivity
 
         Typeface walkwayBold = Typeface.createFromAsset(getAssets(), "WalkwayBold.ttf");
         translateText = (EditText) findViewById(R.id.translate_text);
-        translateText.setTypeface(walkwayBold);
 
         categoryText = (TextView) findViewById(R.id.category_text);
         subCategoryText = (TextView) findViewById(R.id.sub_category_text);
@@ -114,6 +113,7 @@ public class DictionaryActivity extends AppCompatActivity
         goToABC = (Button) findViewById(R.id.go_to_abc);
         categoryText.setTypeface(walkwayBold);
         subCategoryText.setTypeface(walkwayBold);
+        webView = (WebView) findViewById(R.id.web);
 
         letter_a = (Button) findViewById(R.id.a);
         letter_b = (Button) findViewById(R.id.b);
@@ -306,11 +306,17 @@ public class DictionaryActivity extends AppCompatActivity
             }
         });
 
+        translateText.setTypeface(walkwayBold);
+
         dialog = SimpleProgressDialog.build(this, "Cargando...");
+
+        ruta = " ";
 
         sessionId = getIntent().getIntExtra("sessionId",0);
         utils = new Utils();
         macAdress = utils.getMACAddress("wlan0");
+
+
 
         new GetRegiones().execute();
 
@@ -369,6 +375,11 @@ public class DictionaryActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+
+        //************************************************************************
+        //******* MENU ***********************************************************
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         View hView = navigationView.getHeaderView(0);
@@ -379,6 +390,8 @@ public class DictionaryActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         hideKeyboardFrom();
+
+        //*************************************************************************
     }
 
     @Override
@@ -448,8 +461,10 @@ public class DictionaryActivity extends AppCompatActivity
 
     public void setImageGif(String text)
     {
-        imageView = (ImageView) findViewById(R.id.translateImageView);
-        Ion.with(imageView).load(text);
+
+        webView.loadUrl(ruta+text);
+        webView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -989,6 +1004,8 @@ public class DictionaryActivity extends AppCompatActivity
                 nameText.setText(resultado.getProperty("Nombre").toString()+" "+resultado.getProperty("Apellido").toString());
                 mailText.setText(resultado.getProperty("Mail").toString());
                 int reg = Integer.parseInt(resultado.getProperty("Region").toString());
+
+                if(resultado.getProperty("Ruta") !=null) ruta = resultado.getProperty("Ruta").toString();
 
                 if(idRegion<=listaRegiones.length) regionText.setText(getRegionName(idRegion));
                 else regionText.setText("Error");

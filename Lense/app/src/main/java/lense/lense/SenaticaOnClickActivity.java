@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.koushikdutta.ion.Ion;
-
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -92,8 +90,8 @@ public class SenaticaOnClickActivity extends AppCompatActivity {
         contentSign.setOrientation(LinearLayout.VERTICAL);
         contentSign.setBackground(getResources().getDrawable(R.drawable.accent_button));
 
-        if(url ==null) Ion.with(imageView).load(DEFAULT_URL);
-        else Ion.with(imageView).load(url);
+        //if(url ==null) Ion.with(imageView).load(DEFAULT_URL);
+        //else Ion.with(imageView).load(url);
 
         contentSign.addView(imageView);
 
