@@ -10,6 +10,13 @@
     tools:context="lense.lense.DictionaryActivity"
     tools:showIn="@layout/app_bar_dictionary">
 
+    <TextView
+        android:text=""
+        android:id="@+id/resolution"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -54,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:text="Categoría: Vocal"
+                        android:text="-"
                         android:textColor="#fff"
                         android:textSize="16sp" />
 
@@ -63,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Subcategoría: Vocal"
+                        android:text="-"
                         android:textColor="#fff"
                         android:textSize="16sp" />
 

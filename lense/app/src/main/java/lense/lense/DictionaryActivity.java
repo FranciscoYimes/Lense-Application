@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -51,6 +52,7 @@ public class DictionaryActivity extends AppCompatActivity
     private int sessionId;
 
     private String ruta;
+    private String resolutionDir;
     private Region[] listaRegiones;
     private Utils utils;
     private String macAdress;
@@ -67,6 +69,7 @@ public class DictionaryActivity extends AppCompatActivity
     private TextView regionText;
     private TextView categoryText;
     private TextView subCategoryText;
+    private TextView resolution;
     private Button letter_a;
     private Button letter_b;
     private Button letter_c;
@@ -99,6 +102,7 @@ public class DictionaryActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictionary);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -114,6 +118,7 @@ public class DictionaryActivity extends AppCompatActivity
         categoryText.setTypeface(walkwayBold);
         subCategoryText.setTypeface(walkwayBold);
         webView = (WebView) findViewById(R.id.web);
+        resolution = (TextView) findViewById(R.id.resolution);
 
         letter_a = (Button) findViewById(R.id.a);
         letter_b = (Button) findViewById(R.id.b);
@@ -316,7 +321,7 @@ public class DictionaryActivity extends AppCompatActivity
         utils = new Utils();
         macAdress = utils.getMACAddress("wlan0");
 
-
+        GetResDir();
 
         new GetRegiones().execute();
 
@@ -374,8 +379,6 @@ public class DictionaryActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
 
         //************************************************************************
         //******* MENU ***********************************************************
@@ -462,7 +465,7 @@ public class DictionaryActivity extends AppCompatActivity
     public void setImageGif(String text)
     {
 
-        webView.loadUrl(ruta+text);
+        webView.loadUrl(ruta+resolutionDir+text);
         webView.setVisibility(View.VISIBLE);
 
     }
@@ -1009,12 +1012,33 @@ public class DictionaryActivity extends AppCompatActivity
 
                 if(idRegion<=listaRegiones.length) regionText.setText(getRegionName(idRegion));
                 else regionText.setText("Error");
+
+                setImageGif(DEFAULT_URL);
             }
             else
             {
                 idRegion = 1;
             }
             super.onPostExecute(result);
+        }
+    }
+
+    public void GetResDir()
+    {
+        if(resolution.getText().toString().equals("448"))
+        {
+            resolutionDir = "448x336/";
+        }
+        else
+        {
+            if(resolution.getText().toString().equals("320"))
+            {
+                resolutionDir = "320x240/";
+            }
+            else
+            {
+                resolutionDir = "256x192/";
+            }
         }
     }
 

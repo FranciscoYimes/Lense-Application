@@ -20,10 +20,10 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_marginTop="-30dp"
+                android:layout_marginTop="-40dp"
                 android:id="@+id/splashImage"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="220dp"
                 android:contentDescription="@string/lense_banner_image"
                 android:layout_gravity="center"
                 android:src="@drawable/splash_icon" />

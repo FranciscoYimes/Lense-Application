@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
@@ -39,14 +40,13 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         splashImage = (ImageView) findViewById(R.id.splashImage);
         appearAnimation = new AlphaAnimation(0.0f, 1.0f);
         appearAnimation.setDuration(2000);
         appearAnimation.setFillAfter(true);
 
         utils = new Utils();
-
-
 
         Thread splashThread = new Thread()
         {
